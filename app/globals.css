@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --glow: radial-gradient(circle at 50% 0%, rgba(29, 156, 144, 0.18), transparent 60%);
+}
+
+body {
+  background-color: #050d1a;
+  background-image: var(--glow);
+  background-repeat: no-repeat;
+  color: #f3f7f6;
+}
+
+::selection {
+  background-color: #1d9c90;
+  color: #050d1a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
