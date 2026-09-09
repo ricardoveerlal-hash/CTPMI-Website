@@ -112,7 +112,7 @@
   }
   .nav-row{
     display:flex; align-items:center; justify-content:space-between;
-    padding:14px 24px;
+    padding:18px 32px;
     max-width:1180px; margin:0 auto;
   }
   .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
@@ -130,7 +130,7 @@
     letter-spacing:.18em; color:var(--teal-300); text-transform:uppercase;
   }
 
-  nav.primary{ display:flex; align-items:center; gap:30px; }
+  nav.primary{ display:flex; align-items:center; gap:42px; }
   nav.primary a{
     text-decoration:none; color:var(--paper-dim); font-size:14px; font-weight:500;
     position:relative; padding:4px 0; transition:color .2s ease;
