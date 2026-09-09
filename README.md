@@ -68,3 +68,15 @@ npm run dev
 This repo is linked to the existing Vercel project
 `conquering-through-prayer-ministries-international`, which already owns
 the `ctpmi.online` domain. Pushes to `main` deploy automatically.
+
+## Original site content
+
+`original-site/index.html` is the church's original single-page marketing
+site (About / Services / Prayer Cells / Events / Watch / The Word / Bot
+Demo / Contact) — saved here verbatim so it's never lost again. This is
+**not yet wired into the Next.js app** — the quiz pages and this content
+currently exist side by side in the repo but not in the live site
+navigation. Next step: bring this in as the actual home page, with
+Today/Quiz/Leaderboard/Verse/Profile added as new nav items alongside
+About/Services/etc., so nothing from the original site is lost when it
+goes live again.
