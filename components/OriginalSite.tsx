@@ -30,15 +30,10 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <a href="#cells">Prayer Cells</a>
       <a href="#events">Events</a>
       <a href="#watch">Watch</a>
-      <a href="#word">The Word</a>
-      <a href="#wa-demo">Bot Demo</a>
       <a href="#contact">Contact</a>
       <a href="/quiz" class="nav-app-link">Bible Quiz</a>
-      <a href="/leaderboard" class="nav-app-link">Leaderboard</a>
       <a href="/verse" class="nav-app-link">Daily Word</a>
-      <a href="https://wa.me/27834834334" class="nav-cta wa mobile-only-cta" style="margin-top:10px;">WhatsApp Us</a>
     </nav>
-    <a href="https://wa.me/27834834334" class="nav-cta wa desktop-cta">WhatsApp Us</a>
     <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">☰</button>
   </div>
 </header>
