@@ -72,7 +72,7 @@ function RegisterForm() {
           fullName: result.fullName || `${firstName} ${surname}`.trim(),
           zone,
         });
-        router.push("/");
+        router.push("/today");
       } else {
         setError(result.error || "Something went wrong — please check your details.");
       }

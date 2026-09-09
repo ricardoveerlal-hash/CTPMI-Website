@@ -72,11 +72,28 @@ the `ctpmi.online` domain. Pushes to `main` deploy automatically.
 ## Original site content
 
 `original-site/index.html` is the church's original single-page marketing
-site (About / Services / Prayer Cells / Events / Watch / The Word / Bot
-Demo / Contact) — saved here verbatim so it's never lost again. This is
-**not yet wired into the Next.js app** — the quiz pages and this content
-currently exist side by side in the repo but not in the live site
-navigation. Next step: bring this in as the actual home page, with
-Today/Quiz/Leaderboard/Verse/Profile added as new nav items alongside
-About/Services/etc., so nothing from the original site is lost when it
-goes live again.
+site, saved verbatim as a backup. **It's now also live as the homepage**
+(`/`) — rendered exactly as designed via `components/OriginalSite.tsx`,
+with its own header/nav/footer intact. Three new links were added into
+that existing nav bar (Bible Quiz, Leaderboard, Daily Word), styled to
+match the existing nav items with a small teal accent dot.
+
+## Site structure
+
+- `/` — the original marketing site (About/Services/Prayer Cells/Events/
+  Watch/The Word/Bot Demo/Contact), untouched apart from the three new nav
+  links. Its own CSS (`app/original-site.css`) and inline `<script>`
+  (year stamp, mobile burger menu, scroll reveals, WhatsApp bot demo
+  widget) are preserved and still run.
+- `app/(app)/` — a route group for everything quiz-related
+  (`/today`, `/quiz`, `/leaderboard`, `/verse`, `/profile`, `/login`,
+  `/register`). These share a separate, simpler nav (`components/Header.tsx`)
+  and are the only pages wired to the live `CTPMI Web API` n8n endpoints.
+
+**Why the split matters:** Next.js treats any plain CSS import as global,
+not scoped to one page. `original-site.css` is only imported by `/`, and
+the boundary link back to it (the "CTPMI" brand link in the app header)
+deliberately uses a plain `<a>` tag instead of `next/link`'s `<Link>` to
+force a full page reload — this keeps that stylesheet from leaking into
+the app pages during client-side navigation. Don't change that link to
+`<Link>` without addressing the CSS scoping first.

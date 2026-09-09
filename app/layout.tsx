@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter, Fraunces } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
 import { SessionProvider } from "@/lib/session";
 
 const bricolage = Bricolage_Grotesque({
@@ -16,26 +15,35 @@ const inter = Inter({
   display: "swap",
 });
 
+// The original site uses Fraunces for verse/quote styling (--ff-verse).
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "CTPMI | Daily Word",
+  title: "CTPMI | Conquering Through Prayer",
   description:
-    "Conquering Through Prayer Ministries International — daily verse, Bible quiz, and leaderboard.",
+    "Conquering Through Prayer Ministries International — a non-denominational church in Durban, South Africa. Reaching the city, the nation and the nations of the world through prayer and the gospel of Jesus Christ.",
 };
 
+// Root layout is intentionally minimal: the home page renders the original
+// site's own header/nav/footer verbatim, so it must NOT be wrapped in the
+// app's Header component. Pages under app/(app)/ get that via their own
+// nested layout instead. See app/(app)/layout.tsx.
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${bricolage.variable} ${inter.variable} ${fraunces.variable}`}
+    >
       <body className="font-body min-h-screen">
-        <SessionProvider>
-          <Header />
-          <main className="mx-auto w-full max-w-md px-5 pb-16 pt-6 sm:max-w-2xl">
-            {children}
-          </main>
-        </SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
