@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter, Fraunces } from "next/font/google";
-import "./globals.css";
 import { SessionProvider } from "@/lib/session";
 
 const bricolage = Bricolage_Grotesque({
