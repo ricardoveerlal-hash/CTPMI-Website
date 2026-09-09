@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { isValidSaMobile, normalizeSaMobile } from "@/lib/validatePhone";
+import { api } from "@/lib/api";
+import { useSession } from "@/lib/session";
 
-type Status = "idle" | "checking" | "found" | "not_found" | "invalid" | "error";
+type Status = "idle" | "checking" | "error";
 
 export default function PhoneInput() {
+  const router = useRouter();
+  const { setSession } = useSession();
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const [touched, setTouched] = useState(false);
 
   const valid = isValidSaMobile(value);
@@ -15,19 +21,29 @@ export default function PhoneInput() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setTouched(true);
-
-    if (!valid) {
-      setStatus("invalid");
-      return;
-    }
+    if (!valid) return;
 
     const waId = normalizeSaMobile(value);
-    setStatus("checking");
+    if (!waId) return;
 
-    // TODO: wire to n8n POST /web/login webhook once endpoint exists.
-    // Placeholder keeps the UI honest about not being connected yet.
-    console.log("Would check membership for", waId);
-    setStatus("error");
+    setStatus("checking");
+    try {
+      const result = await api.login(waId);
+      if (result.found) {
+        setSession({
+          waId: result.waId,
+          firstName: result.firstName || "",
+          fullName: result.fullName || "",
+          zone: result.zone,
+        });
+        router.push("/");
+      } else {
+        router.push(`/register?wa_id=${encodeURIComponent(waId)}`);
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Couldn't reach the server. Check your connection and try again.");
+    }
   }
 
   const showError = touched && value.length > 0 && !valid;
@@ -61,16 +77,14 @@ export default function PhoneInput() {
         </p>
       )}
       {status === "error" && (
-        <p className="text-sm text-gold-400">
-          Login isn&rsquo;t connected yet — this screen is a design preview.
-        </p>
+        <p className="text-sm text-red-300">{errorMsg}</p>
       )}
       <button
         type="submit"
-        disabled={value.length === 0}
+        disabled={value.length === 0 || status === "checking"}
         className="mt-1 rounded-card bg-teal px-4 py-3 font-medium text-navy-900 transition-opacity hover:opacity-90 disabled:opacity-40"
       >
-        Continue
+        {status === "checking" ? "Checking..." : "Continue"}
       </button>
     </form>
   );

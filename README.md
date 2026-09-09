@@ -1,9 +1,10 @@
 # CTPMI Website
 
-Design scaffold for `ctpmi.online` — the web front-end for the daily verse,
-Bible quiz, and leaderboard. This is a **visual scaffold only**: pages
-render with mock data and every screen that needs a live n8n endpoint says
-so on the page itself. No backend wiring is done yet.
+`ctpmi.online` — the web front-end for the daily verse, Bible quiz, and
+leaderboard. Wired to the live `CTPMI Web API` n8n workflow: no mock data,
+no timer (matching the WhatsApp bot, which had its timer removed
+2026-09-08). Login is phone-number only, no OTP — see the note in
+`components/PhoneInput.tsx` and the project history for that tradeoff.
 
 ## Stack
 
@@ -16,12 +17,17 @@ so on the page itself. No backend wiring is done yet.
 
 | Route | Status |
 |---|---|
-| `/` | Home — verse hero + quiz CTA, mock data |
-| `/login` | Phone number entry with live SA-mobile validation, not yet wired to a login endpoint |
-| `/quiz` | Question card shell, progress dots, countdown ring — one mock question |
-| `/leaderboard` | Tabs + Top 10 / Most Dedicated / Perfect Scores / Quickest sections, mock Top 10 only |
-| `/verse` | Verse archive, mock entries |
-| `/profile` | Member stats shell, all zeros until login is wired up |
+| `/` | Home — real verse of the day, real quiz status/streak count |
+| `/login` | Phone number entry, calls `POST web/login`, routes to `/register` if not found |
+| `/register` | Full onboarding form (mirrors WhatsApp bot's fields), calls `POST web/register` |
+| `/quiz` | Real 5-question quiz from `GET web/quiz/today` — **no timer**, all questions shown at once, submit together via `POST web/quiz/answer` |
+| `/leaderboard` | Live data from `GET web/leaderboard`, tabs actually switch range |
+| `/verse` | Real verse of the day from `GET web/verse` (12-verse static rotation — not yet AI-generated, see Not yet built) |
+| `/profile` | Real session + quiz stats, logout |
+
+Session is client-side only (`lib/session.tsx`, localStorage) — there's no
+server-side auth. Anyone who knows a member's number can "log in" as them;
+this is a known, accepted tradeoff for the MVP (no OTP yet).
 
 ## Shared source of truth (by design)
 
@@ -41,14 +47,13 @@ same tables the WhatsApp bot already uses:
 
 ## Not yet built (next steps)
 
-1. `NEXT_PUBLIC_N8N_BASE_URL` env var + the five webhook endpoints listed
-   in `.env.example` (`GET /web/quiz/today`, `POST /web/quiz/answer`,
-   `GET /web/leaderboard`, `GET /web/verse`, `POST /web/login`)
-2. Session handling after phone login (cookie, no OTP for now — see
-   project notes on the identity-verification tradeoff)
-3. Wiring `/login`'s "not found" path to the onboarding form
-4. Real quiz state (timer countdown, answer submission, scoring) on `/quiz`
-5. Live leaderboard data + tab switching on `/leaderboard`
+1. Verse archive (currently today-only; the 12-verse rotation is a
+   placeholder — the WhatsApp bot generates its verse live via AI on
+   request, so the two aren't the same content yet)
+2. OTP-based login (currently phone number only, no verification)
+3. Streak tracking on the home page (backend doesn't compute a streak yet)
+4. Registration doesn't clear a matching `Registration Progress` row if
+   someone had a stalled WhatsApp signup under the same number
 
 ## Local development
 

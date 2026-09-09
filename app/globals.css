@@ -18,6 +18,10 @@ body {
   color: #050d1a;
 }
 
+.input {
+  @apply w-full rounded-card border border-white/15 bg-navy-800 px-4 py-3 text-base text-paper outline-none transition-colors placeholder:text-paper/30 focus:border-teal;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
