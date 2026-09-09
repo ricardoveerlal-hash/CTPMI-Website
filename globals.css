@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --glow: radial-gradient(circle at 50% 0%, rgba(29, 156, 144, 0.18), transparent 60%);
+}
+
+body {
+  background-color: #050d1a;
+  background-image: var(--glow);
+  background-repeat: no-repeat;
+  color: #f3f7f6;
+}
+
+::selection {
+  background-color: #1d9c90;
+  color: #050d1a;
+}
+
+.input {
+  @apply w-full rounded-card border border-white/15 bg-navy-800 px-4 py-3 text-base text-paper outline-none transition-colors placeholder:text-paper/30 focus:border-teal;
+}
+
+/* ---------------- Fun-mode animations (quiz + leaderboard) ---------------- */
+
+@keyframes fade-slide-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-slide-up {
+  animation: fade-slide-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.85); }
+  60% { opacity: 1; transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.animate-pop-in {
+  animation: pop-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gentle-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+}
+.animate-gentle-bob {
+  animation: gentle-bob 2.6s ease-in-out infinite;
+}
+
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(220%); }
+}
+.animate-shimmer-sweep {
+  animation: shimmer-sweep 1.8s ease-in-out infinite;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(160px) rotate(360deg); opacity: 0; }
+}
+.animate-confetti-fall {
+  animation: confetti-fall 1.6s ease-in both;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(29, 156, 144, 0.55); }
+  100% { box-shadow: 0 0 0 14px rgba(29, 156, 144, 0); }
+}
+.animate-pulse-ring {
+  animation: pulse-ring 1.6s ease-out infinite;
+}
+
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.animate-shake-x {
+  animation: shake-x 0.35s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
