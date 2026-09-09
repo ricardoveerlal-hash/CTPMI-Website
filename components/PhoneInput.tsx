@@ -36,7 +36,7 @@ export default function PhoneInput() {
           fullName: result.fullName || "",
           zone: result.zone,
         });
-        router.push("/today");
+        router.push("/verse");
       } else {
         router.push(`/register?wa_id=${encodeURIComponent(waId)}`);
       }

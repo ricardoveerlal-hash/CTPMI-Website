@@ -66,15 +66,33 @@ export default function LeaderboardPage() {
       {data && !loading && (
         <>
           {podium.length > 0 && (
-            <section className="animate-pop-in flex flex-col gap-2">
+            <section className="flex flex-col gap-2">
               <div className="flex items-end justify-center gap-3">
                 {[podium[1], podium[0], podium[2]].map((player, idx) => {
                   if (!player) return <div key={idx} className="w-1/3" />;
                   const isFirst = player.position === 1;
-                  const heights = isFirst ? "h-32" : player.position === 2 ? "h-24" : "h-20";
+                  const isSecond = player.position === 2;
+                  const heights = isFirst ? "h-36" : isSecond ? "h-24" : "h-20";
                   const medal = MEDALS[player.position - 1] ?? "🎖️";
+                  const barStyle = isFirst
+                    ? "border-gold-400/60 bg-gradient-to-t from-gold-600/40 via-gold-400/20 to-gold-400/10 shadow-[0_0_24px_-4px_rgba(217,169,78,0.55)]"
+                    : isSecond
+                    ? "border-slate-300/50 bg-gradient-to-t from-slate-400/30 via-slate-200/15 to-slate-200/5"
+                    : "border-orange-400/40 bg-gradient-to-t from-orange-500/30 via-orange-300/15 to-orange-300/5";
                   return (
-                    <div key={player.position} className="flex w-1/3 flex-col items-center gap-2">
+                    <div
+                      key={player.position}
+                      style={{ animationDelay: isFirst ? "0.15s" : isSecond ? "0s" : "0.3s" }}
+                      className="animate-pop-in relative flex w-1/3 flex-col items-center gap-2"
+                    >
+                      {isFirst && (
+                        <>
+                          <span className="animate-gentle-bob absolute -top-9 text-3xl">👑</span>
+                          <span className="animate-pulse-ring absolute top-1 left-1/2 h-12 w-12 -translate-x-1/2 rounded-full" />
+                          <span className="absolute -left-3 top-2 animate-pop-in text-sm" style={{ animationDelay: "0.5s" }}>✨</span>
+                          <span className="absolute -right-3 top-4 animate-pop-in text-sm" style={{ animationDelay: "0.7s" }}>✨</span>
+                        </>
+                      )}
                       <span className={`text-2xl ${isFirst ? "animate-gentle-bob" : ""}`}>{medal}</span>
                       <p className="max-w-full truncate text-center text-sm font-semibold text-paper">
                         {player.name}
@@ -82,13 +100,11 @@ export default function LeaderboardPage() {
                       <p className="text-xs text-paper/50">
                         {player.correct}/{player.played}
                       </p>
-                      <div
-                        className={`w-full rounded-t-card border border-b-0 ${
-                          isFirst
-                            ? "border-gold-400/50 bg-gradient-to-t from-gold-600/30 to-gold-400/10"
-                            : "border-teal/30 bg-gradient-to-t from-teal/20 to-teal/5"
-                        } ${heights}`}
-                      />
+                      <div className={`relative w-full overflow-hidden rounded-t-card border border-b-0 ${barStyle} ${heights}`}>
+                        {isFirst && (
+                          <span className="animate-shimmer-sweep absolute inset-y-0 left-0 w-8 skew-x-12 bg-white/25" />
+                        )}
+                      </div>
                     </div>
                   );
                 })}

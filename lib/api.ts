@@ -102,6 +102,44 @@ export interface RegisterResponse {
   error?: string;
 }
 
+export interface ProfileResponse {
+  found: boolean;
+  waId: string;
+  firstName?: string;
+  surname?: string;
+  fullName?: string;
+  zone?: string;
+  email?: string;
+  cellNumber?: string;
+  birthDay?: number | null;
+  birthMonth?: number | null;
+  isCtpmiMember?: boolean;
+  registeredAt?: string;
+}
+
+export interface ProfileUpdatePayload {
+  wa_id: string;
+  firstName: string;
+  surname?: string;
+  zone?: string;
+  email?: string;
+  isCtpmiMember: boolean;
+  birthDay: number | null;
+  birthMonth: number | null;
+}
+
+export interface ProfileUpdateResponse {
+  success: boolean;
+  waId?: string;
+  fullName?: string;
+  zone?: string;
+  email?: string;
+  birthDay?: number;
+  birthMonth?: number;
+  isCtpmiMember?: boolean;
+  error?: string;
+}
+
 async function getJson<T>(path: string, params?: Record<string, string>): Promise<T> {
   const url = new URL(`${BASE_URL}/${path}`);
   if (params) {
@@ -139,4 +177,10 @@ export const api = {
 
   register: (payload: RegisterPayload) =>
     postJson<RegisterResponse>("web/register", payload),
+
+  getProfile: (waId: string) =>
+    getJson<ProfileResponse>("web/profile", { wa_id: waId }),
+
+  updateProfile: (payload: ProfileUpdatePayload) =>
+    postJson<ProfileUpdateResponse>("web/profile/update", payload),
 };
