@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { api, type LeaderboardResponse } from "@/lib/api";
 
-const TABS: { key: "today" | "7d" | "30d" | "all"; label: string }[] = [
-  { key: "today", label: "Today" },
-  { key: "7d", label: "7 Days" },
-  { key: "30d", label: "30 Days" },
-  { key: "all", label: "All Time" },
+const TABS: { key: "today" | "7d" | "30d" | "all"; label: string; emoji: string }[] = [
+  { key: "today", label: "Today", emoji: "☀️" },
+  { key: "7d", label: "7 Days", emoji: "📅" },
+  { key: "30d", label: "30 Days", emoji: "🗓️" },
+  { key: "all", label: "All Time", emoji: "👑" },
 ];
+
+const MEDALS = ["🥇", "🥈", "🥉"];
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]["key"]>("today");
@@ -26,46 +28,85 @@ export default function LeaderboardPage() {
       .finally(() => setLoading(false));
   }, [activeTab]);
 
+  const podium = data?.top10.slice(0, 3) ?? [];
+  const rest = data?.top10.slice(3) ?? [];
+
   return (
     <div className="flex flex-col gap-8 pt-4">
-      <div>
-        <h1 className="font-display text-2xl font-semibold text-paper">
-          Leaderboard
+      <div className="animate-fade-slide-up">
+        <h1 className="flex items-center gap-2 font-display text-2xl font-semibold text-paper">
+          🏆 Leaderboard
         </h1>
-        <div className="mt-4 flex gap-1 border-b border-white/10 text-sm">
+        <div className="mt-4 flex gap-1.5 overflow-x-auto rounded-full border border-white/10 bg-navy-800/50 p-1">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-3 py-2 ${
+              className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium transition-all ${
                 activeTab === tab.key
-                  ? "border-b-2 border-teal text-paper"
-                  : "text-paper/50"
+                  ? "bg-gradient-to-r from-teal to-teal-light text-navy-900 shadow-md"
+                  : "text-paper/50 hover:text-paper/80"
               }`}
             >
+              <span>{tab.emoji}</span>
               {tab.label}
             </button>
           ))}
         </div>
       </div>
 
-      {loading && <p className="text-sm text-paper/50">Loading...</p>}
+      {loading && (
+        <div className="flex flex-col items-center gap-3 pt-8 text-center">
+          <span className="animate-gentle-bob text-3xl">🏆</span>
+          <p className="text-sm text-paper/50">Loading the leaderboard&hellip;</p>
+        </div>
+      )}
       {errorMsg && <p className="text-sm text-red-300">{errorMsg}</p>}
 
       {data && !loading && (
         <>
-          <Section title="Top 10" subtitle="Ranked by correct answers">
-            {data.top10.length ? (
+          {podium.length > 0 && (
+            <section className="animate-pop-in flex flex-col gap-2">
+              <div className="flex items-end justify-center gap-3">
+                {[podium[1], podium[0], podium[2]].map((player, idx) => {
+                  if (!player) return <div key={idx} className="w-1/3" />;
+                  const isFirst = player.position === 1;
+                  const heights = isFirst ? "h-32" : player.position === 2 ? "h-24" : "h-20";
+                  const medal = MEDALS[player.position - 1] ?? "🎖️";
+                  return (
+                    <div key={player.position} className="flex w-1/3 flex-col items-center gap-2">
+                      <span className={`text-2xl ${isFirst ? "animate-gentle-bob" : ""}`}>{medal}</span>
+                      <p className="max-w-full truncate text-center text-sm font-semibold text-paper">
+                        {player.name}
+                      </p>
+                      <p className="text-xs text-paper/50">
+                        {player.correct}/{player.played}
+                      </p>
+                      <div
+                        className={`w-full rounded-t-card border border-b-0 ${
+                          isFirst
+                            ? "border-gold-400/50 bg-gradient-to-t from-gold-600/30 to-gold-400/10"
+                            : "border-teal/30 bg-gradient-to-t from-teal/20 to-teal/5"
+                        } ${heights}`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          <Section title="Top 10" subtitle="Ranked by correct answers" emoji="📊">
+            {rest.length || podium.length ? (
               <ol className="flex flex-col gap-2">
-                {data.top10.map((player) => (
+                {rest.map((player, i) => (
                   <li
                     key={player.position}
-                    className="flex items-center justify-between rounded-card border border-white/10 bg-navy-800 px-4 py-3"
+                    style={{ animationDelay: `${i * 50}ms` }}
+                    className="animate-fade-slide-up flex items-center justify-between rounded-card border border-white/10 bg-navy-800 px-4 py-3"
                   >
                     <span className="flex items-center gap-3">
-                      <span className="w-4 text-sm text-paper/40">
-                        {player.position}
-                      </span>
+                      <span className="w-5 text-sm text-paper/40">{player.position}</span>
                       <span className="text-paper">{player.name}</span>
                     </span>
                     <span className="text-sm text-paper/60">
@@ -79,7 +120,7 @@ export default function LeaderboardPage() {
             )}
           </Section>
 
-          <Section title="Most Dedicated" subtitle="By questions answered, not accuracy">
+          <Section title="Most Dedicated" subtitle="By questions answered, not accuracy" emoji="💪">
             {data.participation.length ? (
               <ol className="flex flex-col gap-2">
                 {data.participation.map((player) => (
@@ -104,15 +145,15 @@ export default function LeaderboardPage() {
             )}
           </Section>
 
-          <Section title="Perfect Scores" subtitle="100% in this range">
+          <Section title="Perfect Scores" subtitle="100% in this range" emoji="💯">
             {data.perfectScores.length ? (
               <div className="flex flex-wrap gap-2">
                 {data.perfectScores.map((p) => (
                   <span
                     key={p.name}
-                    className="rounded-full border border-gold-400/40 bg-gold-400/10 px-3 py-1 text-sm text-gold-400"
+                    className="animate-pop-in inline-flex items-center gap-1 rounded-full border border-gold-400/40 bg-gold-400/10 px-3 py-1 text-sm text-gold-400"
                   >
-                    {p.name}
+                    ✨ {p.name}
                   </span>
                 ))}
               </div>
@@ -121,7 +162,7 @@ export default function LeaderboardPage() {
             )}
           </Section>
 
-          <Section title="Quickest" subtitle="Average response time">
+          <Section title="Quickest" subtitle="Average response time" emoji="⚡">
             {data.quickest.length ? (
               <ol className="flex flex-col gap-2">
                 {data.quickest.slice(0, 5).map((p, i) => (
@@ -149,17 +190,19 @@ export default function LeaderboardPage() {
 function Section({
   title,
   subtitle,
+  emoji,
   children,
 }: {
   title: string;
   subtitle: string;
+  emoji: string;
   children: React.ReactNode;
 }) {
   return (
     <section className="flex flex-col gap-3">
       <div>
-        <h2 className="font-display text-base font-semibold text-paper">
-          {title}
+        <h2 className="flex items-center gap-1.5 font-display text-base font-semibold text-paper">
+          <span>{emoji}</span> {title}
         </h2>
         <p className="text-xs text-paper/50">{subtitle}</p>
       </div>
