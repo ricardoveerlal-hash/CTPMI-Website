@@ -122,7 +122,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
         <div class="svc-card reveal">
           <div class="svc-time">7:30 <span>&amp; 10:00</span></div>
           <div class="svc-day">Sunday Services</div>
-          <div class="svc-desc">Two gatherings every Sunday — worship, the word, and a house full of faith.</div>
+          <div class="svc-desc">Two gatherings every Sunday — worship, the word, and a house full of faith. Kingdom Kidz runs concurrently at both celebrations.</div>
         </div>
         <div class="svc-card reveal">
           <div class="svc-time">🍞</div>
