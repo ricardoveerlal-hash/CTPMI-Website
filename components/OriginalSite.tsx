@@ -119,35 +119,109 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <p class="section-lede">From Sunday worship to mid-week prayer, cell groups and our youth crew — here's every way to gather with us.</p>
       <div class="svc-grid">
         <div class="svc-card reveal">
+          <div class="svc-bg svc-bg--cross" aria-hidden="true">
+            <svg viewBox="0 0 140 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="55" y="0" width="30" height="220" rx="6" stroke="currentColor" stroke-width="4"/>
+              <rect x="6" y="55" width="128" height="30" rx="6" stroke="currentColor" stroke-width="4"/>
+            </svg>
+          </div>
           <div class="svc-time">7:30 <span>&amp; 10:00</span></div>
           <div class="svc-day">Sunday Services</div>
           <div class="svc-desc">Two gatherings every Sunday — worship, the word, and a house full of faith. Kingdom Kidz runs concurrently at both celebrations.</div>
+          <span class="svc-rule"></span>
         </div>
-        <div class="svc-card reveal">
-          <div class="svc-time">🍞</div>
+        <div class="svc-card reveal svc-card--icon">
+          <div class="svc-bg svc-bg--communion" aria-hidden="true">
+            <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
+              <path d="M70 18 Q70 55 100 60 Q130 55 130 18 Z" fill="#d9a94e"/>
+              <rect x="96" y="60" width="8" height="52" fill="#d9a94e"/>
+              <path d="M75 112 Q100 122 125 112 L120 126 Q100 133 80 126 Z" fill="#d9a94e"/>
+              <ellipse cx="188" cy="128" rx="58" ry="30" fill="#b9832a"/>
+              <path d="M162 116 Q188 102 214 116" stroke="#7a5a20" stroke-width="2" fill="none"/>
+              <path d="M157 131 Q188 148 219 131" stroke="#7a5a20" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="svc-icon">🍞</div>
           <div class="svc-day">Communion</div>
           <div class="svc-desc">First Sunday of every month, at both morning services.</div>
+          <span class="svc-rule"></span>
         </div>
         <div class="svc-card reveal">
+          <div class="svc-bg svc-bg--hands" aria-hidden="true">
+            <svg viewBox="0 -18 160 228" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M80 20 L80 190" stroke="currentColor" stroke-width="3"/>
+              <path d="M80 20 Q40 60 45 130 Q48 165 80 190" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              <path d="M80 20 Q120 60 115 130 Q112 165 80 190" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              <path d="M60 70 Q55 100 62 140" stroke="currentColor" stroke-width="2"/>
+              <path d="M100 70 Q105 100 98 140" stroke="currentColor" stroke-width="2"/>
+              <line x1="80" y1="190" x2="80" y2="208" stroke="currentColor" stroke-width="3"/>
+              <line x1="80" y1="4" x2="80" y2="-14" stroke="currentColor" stroke-width="2"/>
+              <line x1="55" y1="10" x2="42" y2="-4" stroke="currentColor" stroke-width="2"/>
+              <line x1="105" y1="10" x2="118" y2="-4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
           <div class="svc-time">6:00</div>
           <div class="svc-day">Online Prayer</div>
           <div class="svc-desc">Tuesday &amp; Saturday mornings — start the day covered in prayer, wherever you are.</div>
+          <span class="svc-rule"></span>
         </div>
         <div class="svc-card reveal">
+          <div class="svc-bg svc-bg--bible" aria-hidden="true">
+            <svg viewBox="0 -24 260 204" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M130 40 L130 150 Q80 135 30 150 L30 45 Q80 30 130 40Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M130 40 L130 150 Q180 135 230 150 L230 45 Q180 30 130 40Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+              <line x1="45" y1="60" x2="105" y2="52" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="45" y1="80" x2="105" y2="72" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="45" y1="100" x2="105" y2="92" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="155" y1="52" x2="215" y2="60" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="155" y1="72" x2="215" y2="80" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="155" y1="92" x2="215" y2="100" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="130" y1="8" x2="130" y2="-16" stroke="currentColor" stroke-width="2"/>
+              <line x1="100" y1="14" x2="82" y2="-6" stroke="currentColor" stroke-width="2"/>
+              <line x1="160" y1="14" x2="178" y2="-6" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
           <div class="svc-time">10:00</div>
           <div class="svc-day">Tuesday Prayer</div>
           <div class="svc-desc">At the Chapel, 282 Moses Kotane Road — corporate prayer, in person.</div>
+          <span class="svc-rule"></span>
         </div>
-        <div class="svc-card reveal">
-          <div class="svc-time">🏠</div>
+        <div class="svc-card reveal svc-card--icon">
+          <div class="svc-bg svc-bg--house" aria-hidden="true">
+            <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 215 Q55 150 42 95" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              <path d="M90 213 L90 130 L152 130 L152 213" stroke="currentColor" stroke-width="3"/>
+              <path d="M75 130 L121 88 L167 130" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="106" y="166" width="18" height="47" stroke="currentColor" stroke-width="3"/>
+              <rect x="129" y="146" width="16" height="16" stroke="currentColor" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="svc-icon">🏠</div>
           <div class="svc-day">Cell Groups</div>
           <div class="svc-desc">Every Thursday, 7:00 PM. Connect with your Zone Pastor to find your nearest group.</div>
+          <span class="svc-rule"></span>
         </div>
-        <div class="svc-card reveal">
-          <div class="svc-time">🔥</div>
+        <div class="svc-card reveal svc-card--icon">
+          <div class="svc-bg svc-bg--crown" aria-hidden="true">
+            <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 140 L20 80 L60 110 L90 50 L120 110 L150 50 L180 110 L200 80 L200 140 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+              <circle cx="20" cy="72" r="7" stroke="currentColor" stroke-width="3"/>
+              <circle cx="90" cy="42" r="7" stroke="currentColor" stroke-width="3"/>
+              <circle cx="150" cy="42" r="7" stroke="currentColor" stroke-width="3"/>
+              <circle cx="200" cy="72" r="7" stroke="currentColor" stroke-width="3"/>
+              <line x1="20" y1="140" x2="200" y2="140" stroke="currentColor" stroke-width="4"/>
+            </svg>
+          </div>
+          <div class="svc-icon">🔥</div>
           <div class="svc-day">Conquerors Crew · Youth</div>
           <div class="svc-desc">Tuesdays, 7:00 PM at 180 Moses Kotane Road — our home for the next generation.</div>
+          <span class="svc-rule"></span>
         </div>
+      </div>
+      <div class="svc-tagline">
+        <span class="svc-tagline-line"></span>
+        <span class="svc-tagline-words">Connect · Grow · Serve · Belong</span>
+        <span class="svc-tagline-line"></span>
       </div>
     </div>
   </section>

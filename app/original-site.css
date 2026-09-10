@@ -307,16 +307,37 @@
     display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:50px;
   }
   .svc-card{
+    position:relative; overflow:hidden;
     background:linear-gradient(165deg, var(--navy-800), var(--navy-900));
     border:1px solid rgba(143,232,222,.14);
     border-radius:20px; padding:28px 24px; transition:transform .25s ease, border-color .25s ease;
   }
   .svc-card:hover{ transform:translateY(-6px); border-color:var(--teal-400); }
+  .svc-bg{
+    position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:flex-end;
+    padding:10px; pointer-events:none; z-index:0; color:rgba(143,232,222,.5);
+  }
+  .svc-bg svg{ width:auto; height:76%; max-width:72%; opacity:.16; }
+  .svc-bg--communion svg{ opacity:.4; height:82%; }
+  .svc-bg--crown{ align-items:flex-start; padding-top:16px; }
+  .svc-bg--house{ justify-content:flex-end; align-items:flex-end; }
+  .svc-time, .svc-icon, .svc-day, .svc-desc, .svc-rule{ position:relative; z-index:1; }
   .svc-time{ font-family:var(--ff-display); font-weight:700; font-size:2.1rem; color:var(--teal-300); line-height:1; }
+  .svc-icon{ font-size:1.9rem; line-height:1; }
   .svc-day{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-300); margin:14px 0 8px; font-weight:700; }
+  .svc-card--icon .svc-day{ margin-top:16px; }
   .svc-desc{ font-size:14px; color:var(--paper-dim); line-height:1.55; }
+  .svc-rule{ display:block; width:26px; height:2px; background:var(--gold-300); opacity:.75; margin-top:16px; border-radius:2px; }
+  .svc-tagline{ display:flex; align-items:center; justify-content:center; gap:18px; margin-top:46px; }
+  .svc-tagline-line{ flex:1; max-width:130px; height:1px; background:rgba(143,232,222,.22); }
+  .svc-tagline-words{ font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--paper-dim); white-space:nowrap; }
   @media (max-width:920px){ .svc-grid{ grid-template-columns:1fr 1fr; } }
-  @media (max-width:560px){ .svc-grid{ grid-template-columns:1fr; } }
+  @media (max-width:560px){
+    .svc-grid{ grid-template-columns:1fr; }
+    .svc-tagline{ gap:10px; }
+    .svc-tagline-line{ max-width:36px; }
+    .svc-tagline-words{ font-size:9.5px; letter-spacing:.18em; }
+  }
 
   /* =================== CELLS / STAT =================== */
   .cells-section{ background:var(--navy-900); border-top:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); }
