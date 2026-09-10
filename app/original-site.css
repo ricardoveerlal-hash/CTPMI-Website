@@ -395,13 +395,18 @@
   }
   .prayer-form{ display:flex; flex-direction:column; gap:14px; }
   .pf-field{ display:flex; flex-direction:column; gap:6px; font-size:12.5px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:.08em; }
-  .pf-field input, .pf-field textarea{
+  .pf-field input, .pf-field select, .pf-field textarea{
     font-family:var(--ff-body); font-size:14.5px; letter-spacing:normal; text-transform:none;
     background:rgba(5,13,26,.45); border:1px solid rgba(143,232,222,.25); border-radius:10px;
     padding:11px 13px; color:#fff; resize:vertical;
   }
+  .pf-field select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%238fe8de' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 13px center; padding-right:34px;
+  }
+  .pf-field select option{ background:#0a1830; color:#fff; }
   .pf-field input::placeholder, .pf-field textarea::placeholder{ color:rgba(201,216,224,.45); }
-  .pf-field input:focus, .pf-field textarea:focus{
+  .pf-field input:focus, .pf-field select:focus, .pf-field textarea:focus{
     outline:none; border-color:var(--teal-400); box-shadow:0 0 0 3px var(--ring-glow);
   }
   .pf-submit{ border:none; cursor:pointer; margin-top:4px; }
@@ -468,7 +473,7 @@
   .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 
   /* =================== WHATSAPP BOT DEMO =================== */
-  .wademo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; margin-top:50px; }
+  .wademo-grid{ display:grid; grid-template-columns:1fr; gap:64px; align-items:center; margin-top:50px; max-width:640px; margin-left:auto; margin-right:auto; }
   .wademo-steps{ display:flex; flex-direction:column; gap:22px; margin:36px 0 34px; }
   .wademo-step{ display:flex; gap:16px; align-items:flex-start; }
   .wademo-num{

@@ -285,39 +285,6 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <div><h4>Get your Verse of the Day</h4><p>Receive a fresh scripture with its reference, ready to save or share.</p></div>
             </div>
           </div>
-          <a href="https://wa.me/27834834334?text=Hi%20CTPMI%2C%20I%27d%20like%20to%20try%20the%20Bible%20Bot" class="btn btn-wa">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.05 2C6.526 2 2.05 6.477 2.05 12c0 1.83.487 3.552 1.34 5.036L2 22l5.107-1.34A9.94 9.94 0 0 0 12.05 22c5.523 0 10-4.477 10-10S17.573 2 12.05 2zm0 18.184a8.16 8.16 0 0 1-4.166-1.143l-.299-.177-3.038.797.81-2.96-.194-.303a8.15 8.15 0 0 1-1.267-4.398c0-4.508 3.667-8.174 8.174-8.174 4.508 0 8.174 3.666 8.174 8.174 0 4.507-3.666 8.184-8.174 8.184z"/></svg>
-            Start chatting for real
-          </a>
-        </div>
-
-        <div class="phone-wrap reveal">
-          <div class="phone-shell">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <div class="wa-head">
-                <div class="wa-head-avatar">📖</div>
-                <div class="wa-head-info">
-                  <div class="wa-head-name">CTPMI Bible Bot</div>
-                  <div class="wa-head-status" id="waStatus">online</div>
-                </div>
-                <button class="wa-head-restart" id="waRestartBtn" aria-label="Restart demo" title="Restart demo">↻</button>
-              </div>
-              <div class="wa-chat-body" id="waChatBody"></div>
-              <div class="wa-input-bar">
-                <div class="wa-input-fake">Type a message</div>
-                <button class="wa-input-send" aria-label="Send" tabindex="-1">
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
-                </button>
-              </div>
-              <div class="wademo-start" id="waStartOverlay">
-                <div class="icon">💬</div>
-                <h3>See the bot in action</h3>
-                <p>A quick walkthrough of registering, the menu, the Bible quiz and verse of the day.</p>
-                <button id="waStartBtn" type="button">👋 Tap to say "Hi"</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -331,9 +298,28 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <div class="connect-grid">
         <div class="connect-card pray reveal">
           <span class="connect-icon">🙏</span>
-          <h3>Request prayer</h3>
-          <p>Our prayer team would be honoured to stand with you in whatever you're facing — big or small. Fill in your details below and our Pastoralship team will be in touch.</p>
+          <h3>Request prayer &amp; care</h3>
+          <p>Our Pastoralship team would be honoured to stand with you in whatever you're facing — big or small. Fill in your details below and they'll be in touch.</p>
           <form id="prayerRequestForm" class="prayer-form" novalidate>
+            <label class="pf-field">
+              <span>Request Type</span>
+              <select name="request_type" required>
+                <option value="" disabled selected>Select a request type</option>
+                <option value="Prayer Request">Prayer Request</option>
+                <option value="Home Visit">Home Visit</option>
+                <option value="Pastoral Care">Pastoral Care</option>
+                <option value="Item Request">Item Request</option>
+                <option value="Church Visit">Church Visit</option>
+              </select>
+            </label>
+            <label class="pf-field">
+              <span>CTPMI Member?</span>
+              <select name="ctpmi_member" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </label>
             <label class="pf-field">
               <span>Full Name</span>
               <input type="text" name="full_name" required autocomplete="name">
@@ -347,11 +333,11 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <input type="text" name="zone" placeholder="e.g. Overport, Phoenix, Chatsworth" required>
             </label>
             <label class="pf-field">
-              <span>Prayer Request</span>
-              <textarea name="prayer_request" rows="4" required></textarea>
+              <span>Details</span>
+              <textarea name="prayer_request" rows="4" required placeholder="Tell us a little more about your request"></textarea>
             </label>
             <button type="submit" class="btn btn-wa pf-submit">
-              <span class="pf-submit-label">Send Prayer Request</span>
+              <span class="pf-submit-label">Send Request</span>
             </button>
             <p class="pf-status" id="prayerFormStatus" role="status" aria-live="polite"></p>
           </form>
@@ -368,10 +354,6 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
             <div class="bank-row"><span>Reference</span><strong>Your Name &amp; Cell</strong></div>
           </div>
           <p class="give-verse">"Give, and it will be given to you." — Luke 6:38</p>
-          <a href="https://wa.me/27834834334?text=Hi%20CTPMI%2C%20I%27d%20like%20to%20find%20out%20more%20about%20giving%20%2F%20tithing" class="btn btn-wa">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.05 2C6.526 2 2.05 6.477 2.05 12c0 1.83.487 3.552 1.34 5.036L2 22l5.107-1.34A9.94 9.94 0 0 0 12.05 22c5.523 0 10-4.477 10-10S17.573 2 12.05 2zm0 18.184a8.16 8.16 0 0 1-4.166-1.143l-.299-.177-3.038.797.81-2.96-.194-.303a8.15 8.15 0 0 1-1.267-4.398c0-4.508 3.667-8.174 8.174-8.174 4.508 0 8.174 3.666 8.174 8.174 0 4.507-3.666 8.184-8.174 8.184z"/></svg>
-            Ask us on WhatsApp
-          </a>
         </div>
       </div>
     </div>
@@ -520,12 +502,14 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       statusEl.classList.remove('pf-status-error', 'pf-status-ok');
       const fd = new FormData(form);
       const payload = {
+        request_type: (fd.get('request_type') || '').toString().trim(),
+        ctpmi_member: (fd.get('ctpmi_member') || '').toString().trim(),
         full_name: (fd.get('full_name') || '').toString().trim(),
         cell_number: (fd.get('cell_number') || '').toString().trim(),
         zone: (fd.get('zone') || '').toString().trim(),
         prayer_request: (fd.get('prayer_request') || '').toString().trim()
       };
-      if(!payload.full_name || !payload.cell_number || !payload.zone || !payload.prayer_request){
+      if(!payload.request_type || !payload.ctpmi_member || !payload.full_name || !payload.cell_number || !payload.zone || !payload.prayer_request){
         statusEl.textContent = 'Please fill in every field so our team can reach you.';
         statusEl.classList.add('pf-status-error');
         return;
@@ -541,14 +525,14 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         });
         if(!res.ok) throw new Error('Request failed');
         form.reset();
-        statusEl.textContent = 'Thank you 🙏 your prayer request has been sent to our Pastoralship team.';
+        statusEl.textContent = 'Thank you 🙏 your request has been sent to our Pastoralship team.';
         statusEl.classList.add('pf-status-ok');
       } catch (err) {
         statusEl.textContent = "Sorry, something went wrong sending that. Please try again, or WhatsApp us on +27 83 483 4334.";
         statusEl.classList.add('pf-status-error');
       } finally {
         submitBtn.disabled = false;
-        submitLabel.textContent = 'Send Prayer Request';
+        submitLabel.textContent = 'Send Request';
       }
     });
   })();
