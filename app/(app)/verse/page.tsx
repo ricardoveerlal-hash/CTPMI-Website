@@ -12,11 +12,12 @@ export default function VersePage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    if (sessionLoading) return;
     api
-      .getVerse()
+      .getVerse(session?.waId)
       .then(setVerse)
       .catch(() => setErrorMsg("Couldn't load today's verse right now."));
-  }, []);
+  }, [session, sessionLoading]);
 
   useEffect(() => {
     if (sessionLoading || !session) return;
@@ -34,6 +35,11 @@ export default function VersePage() {
               &ldquo;{verse.text}&rdquo;
             </blockquote>
             <p className="text-sm text-paper/50">{verse.ref}</p>
+            {verse.encouragement && (
+              <p className="text-base italic leading-relaxed text-paper/70">
+                {verse.encouragement}
+              </p>
+            )}
           </>
         ) : (
           !errorMsg && <p className="text-sm text-paper/40">Loading...</p>

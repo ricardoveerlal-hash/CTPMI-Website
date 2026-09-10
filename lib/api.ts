@@ -74,6 +74,8 @@ export interface VerseResponse {
   date: string;
   ref: string;
   text: string;
+  encouragement: string;
+  firstName?: string;
 }
 
 export interface LoginResponse {
@@ -171,7 +173,8 @@ export const api = {
   getLeaderboard: (range: "today" | "7d" | "30d" | "all") =>
     getJson<LeaderboardResponse>("web/leaderboard", { range }),
 
-  getVerse: () => getJson<VerseResponse>("web/verse"),
+  getVerse: (waId?: string) =>
+    getJson<VerseResponse>("web/verse", waId ? { wa_id: waId } : undefined),
 
   login: (waId: string) => postJson<LoginResponse>("web/login", { wa_id: waId }),
 
