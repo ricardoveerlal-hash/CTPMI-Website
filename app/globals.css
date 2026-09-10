@@ -82,6 +82,30 @@ body {
   animation: shake-x 0.35s ease-in-out;
 }
 
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  75% { transform: rotate(10deg) scale(1.1); }
+}
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes float-drift {
+  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.55; }
+  50% { transform: translateY(-10px) translateX(4px) rotate(8deg); opacity: 0.9; }
+}
+.animate-float-drift {
+  animation: float-drift 3.4s ease-in-out infinite;
+}
+
+@keyframes bar-grow {
+  from { width: 0%; }
+}
+.animate-bar-grow {
+  animation: bar-grow 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
