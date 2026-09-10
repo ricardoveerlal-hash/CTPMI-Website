@@ -16,8 +16,12 @@ export default function Header() {
   return (
     <header className="border-b border-white/10">
       <div className="mx-auto flex max-w-md items-center justify-between px-5 py-4 sm:max-w-2xl">
-        <a href="/" className="font-display text-lg font-semibold tracking-tight text-paper">
-          CTPMI
+        <a href="/" aria-label="CTPMI home" className="flex items-center">
+          <img
+            src="/ctpmi-icon.png"
+            alt="Conquering Through Prayer Ministries International logo"
+            className="h-9 w-9 object-contain drop-shadow-[0_0_10px_rgba(47,191,178,0.45)]"
+          />
         </a>
         <nav className="flex items-center gap-2.5 text-[11px] text-paper/70 sm:gap-4 sm:text-sm">
           {links.map((link) => (
