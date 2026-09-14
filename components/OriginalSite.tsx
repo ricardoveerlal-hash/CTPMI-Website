@@ -340,12 +340,12 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <div class="wademo-grid">
         <div class="reveal">
           <p class="kicker">Try it yourself</p>
-          <h2 class="h-title">Meet our WhatsApp Bible companion.</h2>
-          <p class="section-lede">No app to download — just WhatsApp. Save our number, say hi, and our bot walks you through registration, a daily Bible quiz and your verse for the day. Tap through the mock-up alongside to see exactly how it works.</p>
+          <h2 class="h-title">Join Our Care and Connect WhatsApp Chat</h2>
+          <p class="section-lede">No app to download — just WhatsApp. Save our number, say hi, and our chat walks you through registration, a daily Bible quiz and your verse for the day. Tap through the mock-up alongside to see exactly how it works.</p>
           <div class="wademo-steps">
             <div class="wademo-step">
               <div class="wademo-num">1</div>
-              <div><h4>Say hi &amp; register</h4><p>Message the number and tell the bot your name — you're registered in seconds.</p></div>
+              <div><h4>Say hi &amp; register</h4><p>Message the number and tell the chat your name — you're registered in seconds.</p></div>
             </div>
             <div class="wademo-step">
               <div class="wademo-num">2</div>
@@ -698,7 +698,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       const mySeq = seq;
       startOverlay.classList.add('hidden');
       userSay('Hi 👋');
-      await botSay("Welcome to CTPMI! 🙏 I'm your Bible companion bot. Before we start — what should I call you?");
+      await botSay("Welcome to CTPMI! 🙏 I'm your Bible companion chat. Before we start — what should I call you?");
       if(mySeq !== seq) return;
       showQuickReplies(['Thabo','Nomvula','Just call me Friend'], async (name) => {
         userName = name === 'Just call me Friend' ? 'Friend' : name;
@@ -716,7 +716,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         } else if(choice === '📅 Verse of the Day'){
           await showVerse();
         } else {
-          await botSay('Our prayer team is standing by 🙏 — on the real bot this hands you straight to a prayer request form.');
+          await botSay('Our prayer team is standing by 🙏 — on the real chat this hands you straight to a prayer request form.');
           showQuickReplies(['⬅ Back to menu'], async () => { await botSay('Sure thing — here we go:'); showMenu(); });
         }
       });
