@@ -58,25 +58,7 @@
       var(--navy-950);
   }
 
-  /* =================== WHATSAPP TOPBAR =================== */
-  .wa-topbar{
-    background:var(--wa-green);
-    color:#06301c;
-  }
-  .wa-topbar a{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    padding:10px 24px; text-decoration:none; color:#06301c;
-    font-family:var(--ff-body); font-weight:700; font-size:13.5px;
-    letter-spacing:.01em; text-align:center;
-    transition:background .2s ease;
-  }
-  .wa-topbar a:hover{ background:var(--wa-green-dark); color:#fff; }
-  .wa-topbar svg{ width:17px; height:17px; flex-shrink:0; }
-  .wa-topbar .wa-num{ font-weight:800; letter-spacing:.02em; }
-  @media (max-width:520px){
-    .wa-topbar a{ padding:9px 14px; font-size:12px; gap:8px; }
-  }
-
+  /* =================== WHATSAPP FLOAT BUTTON =================== */
   .wa-float{
     position:fixed; left:20px; bottom:26px; z-index:99999;
     width:60px; height:60px; border-radius:50%;
