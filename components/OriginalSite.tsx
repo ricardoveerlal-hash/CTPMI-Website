@@ -334,14 +334,13 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- ============ WHATSAPP BOT DEMO ============ -->
   <section id="wa-demo" class="tight">
     <div class="wrap">
       <div class="wademo-grid">
         <div class="reveal">
           <p class="kicker">Try it yourself</p>
           <h2 class="h-title">Join Our Care and Connect WhatsApp Chat</h2>
-          <p class="section-lede">No app to download — just WhatsApp. Save our number, say hi, and our chat walks you through registration, a daily Bible quiz and your verse for the day. Tap through the mock-up alongside to see exactly how it works.</p>
+          <p class="section-lede">No app to download — just WhatsApp. Save our number, say hi, and our chat walks you through registration, a daily Bible quiz and your verse for the day.</p>
           <div class="wademo-steps">
             <div class="wademo-step">
               <div class="wademo-num">1</div>
@@ -610,160 +609,6 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         submitLabel.textContent = 'Send Request';
       }
     });
-  })();
-
-  /* =================== WHATSAPP BOT DEMO =================== */
-  (function(){
-    const chat = document.getElementById('waChatBody');
-    if(!chat) return;
-    const startOverlay = document.getElementById('waStartOverlay');
-    const startBtn = document.getElementById('waStartBtn');
-    const restartBtn = document.getElementById('waRestartBtn');
-    const statusEl = document.getElementById('waStatus');
-
-    const quizBank = [
-      { q:"Who built the ark to survive the flood?", options:["Moses","Noah","Abraham"], correct:"Noah", ref:"Genesis 6:14" },
-      { q:"How many days did Jesus fast in the wilderness?", options:["7","40","100"], correct:"40", ref:"Matthew 4:2" },
-      { q:"What did young David use to defeat Goliath?", options:["A sword","A sling","A spear"], correct:"A sling", ref:"1 Samuel 17:50" }
-    ];
-    const verseOfDay = {
-      text:"The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning.",
-      ref:"Lamentations 3:22-23"
-    };
-
-    let userName = "Friend";
-    let quizIndex = 0, quizScore = 0, running = false, seq = 0;
-
-    function timeNow(){ return new Date().toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit' }); }
-    function scrollDown(){ chat.scrollTop = chat.scrollHeight; }
-    function esc(s){ const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-    function addMsg(text, dir, opts){
-      opts = opts || {};
-      const div = document.createElement('div');
-      div.className = 'msg ' + dir + (opts.verse ? ' verse' : '');
-      if(opts.verse){
-        div.innerHTML = '“' + esc(text) + '”<span class="msg-ref">— ' + esc(opts.ref) + '</span><span class="msg-time">' + timeNow() + '</span>';
-      } else {
-        div.innerHTML = esc(text) + '<span class="msg-time">' + timeNow() + '</span>';
-      }
-      chat.appendChild(div);
-      scrollDown();
-    }
-    function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-    async function botSay(text, opts){
-      const mySeq = seq;
-      const typing = document.createElement('div');
-      typing.className = 'typing-dots';
-      typing.innerHTML = '<span></span><span></span><span></span>';
-      statusEl.textContent = 'typing…';
-      statusEl.classList.add('typing');
-      chat.appendChild(typing);
-      scrollDown();
-      await wait(550 + Math.random()*450);
-      typing.remove();
-      if(mySeq !== seq) return; // cancelled by a restart mid-typing
-      statusEl.textContent = 'online';
-      statusEl.classList.remove('typing');
-      addMsg(text, 'in', opts);
-    }
-    function userSay(text){ addMsg(text, 'out'); }
-
-    function showQuickReplies(options, handler){
-      const mySeq = seq;
-      const row = document.createElement('div');
-      row.className = 'qr-row';
-      options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'qr-btn';
-        btn.type = 'button';
-        btn.textContent = opt;
-        btn.addEventListener('click', () => {
-          if(mySeq !== seq) return;
-          Array.from(row.querySelectorAll('button')).forEach(b => b.disabled = true);
-          userSay(opt);
-          row.remove();
-          handler(opt);
-        });
-        row.appendChild(btn);
-      });
-      chat.appendChild(row);
-      scrollDown();
-    }
-
-    async function startDemo(){
-      if(running) return;
-      running = true;
-      const mySeq = seq;
-      startOverlay.classList.add('hidden');
-      userSay('Hi 👋');
-      await botSay("Welcome to CTPMI! 🙏 I'm your Bible companion chat. Before we start — what should I call you?");
-      if(mySeq !== seq) return;
-      showQuickReplies(['Thabo','Nomvula','Just call me Friend'], async (name) => {
-        userName = name === 'Just call me Friend' ? 'Friend' : name;
-        await botSay('Lekker to meet you, ' + userName + "! ✅ You're registered. Here's what I can help with today:");
-        if(mySeq !== seq) return;
-        showMenu();
-      });
-    }
-
-    function showMenu(){
-      showQuickReplies(['📖 Bible Quiz','📅 Verse of the Day','🙏 Prayer Wall'], async (choice) => {
-        if(choice === '📖 Bible Quiz'){
-          quizIndex = 0; quizScore = 0;
-          await runQuiz();
-        } else if(choice === '📅 Verse of the Day'){
-          await showVerse();
-        } else {
-          await botSay('Our prayer team is standing by 🙏 — on the real chat this hands you straight to a prayer request form.');
-          showQuickReplies(['⬅ Back to menu'], async () => { await botSay('Sure thing — here we go:'); showMenu(); });
-        }
-      });
-    }
-
-    async function runQuiz(){
-      if(quizIndex >= quizBank.length){
-        await botSay('🏆 Quiz complete! You scored ' + quizScore + '/' + quizBank.length + ', ' + userName + '. ' + (quizScore === quizBank.length ? 'Perfect score! 🎉' : 'Nice work — try again for full marks!'));
-        showQuickReplies(['⬅ Back to menu','🔁 Retake quiz'], async (choice) => {
-          if(choice === '🔁 Retake quiz'){ quizIndex = 0; quizScore = 0; await runQuiz(); }
-          else { await botSay('Here you go:'); showMenu(); }
-        });
-        return;
-      }
-      const item = quizBank[quizIndex];
-      await botSay('Question ' + (quizIndex+1) + '/' + quizBank.length + ': ' + item.q);
-      showQuickReplies(item.options, async (answer) => {
-        const correct = answer === item.correct;
-        if(correct) quizScore++;
-        await botSay((correct ? '✅ Correct!' : ('❌ Not quite — it’s ' + item.correct + '.')) + ' (' + item.ref + ')');
-        quizIndex++;
-        await runQuiz();
-      });
-    }
-
-    async function showVerse(){
-      await botSay(verseOfDay.text, { verse:true, ref: verseOfDay.ref });
-      showQuickReplies(['🙏 Amen','⬅ Back to menu'], async (choice) => {
-        if(choice === '🙏 Amen'){ await botSay('Amen! 🙌 Carry that with you today.'); }
-        await wait(250);
-        await botSay('Anything else?');
-        showMenu();
-      });
-    }
-
-    function resetDemo(){
-      seq++; // cancels any in-flight typing/quick-reply callbacks
-      running = false;
-      quizIndex = 0; quizScore = 0; userName = 'Friend';
-      chat.innerHTML = '';
-      statusEl.textContent = 'online';
-      statusEl.classList.remove('typing');
-      startOverlay.classList.remove('hidden');
-    }
-
-    startBtn.addEventListener('click', startDemo);
-    restartBtn.addEventListener('click', resetDemo);
   })();
 `;
 
