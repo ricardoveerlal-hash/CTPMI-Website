@@ -126,10 +126,12 @@
     letter-spacing:.02em; color:var(--paper);
   }
   .brand-text .b2{
+    display:block;
     font-family:var(--ff-body); font-weight:600; font-size:9.5px;
     letter-spacing:.18em; color:var(--teal-300); text-transform:uppercase;
   }
   .brand-text .b2-solo{ font-size:12.5px; letter-spacing:.1em; }
+  .brand-text .b2-sub{ font-size:8.5px; letter-spacing:.14em; opacity:.85; margin-top:2px; }
 
   nav.primary{ display:flex; align-items:center; gap:42px; }
   nav.primary a{

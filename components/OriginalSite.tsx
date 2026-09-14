@@ -21,6 +21,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <img src="/ctpmi-icon.png" alt="Conquering Through Prayer Ministries International logo">
       <span class="brand-text">
         <span class="b2 b2-solo">Conquering Through Prayer</span>
+        <span class="b2 b2-sub">Ministries International</span>
       </span>
     </a>
     <nav class="primary" id="primaryNav">
@@ -59,6 +60,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <p class="lede">A non-denominational church reaching the city, the nation, and the nations of the world — through prayer and the gospel of Jesus Christ.</p>
       <div class="hero-ctas">
         <a href="/quiz" class="btn btn-ghost">🧠 Bible Quiz</a>
+        <a href="/verse" class="btn btn-ghost">📅 Verse of the Day</a>
         <a href="#services" class="btn btn-ghost">Service times</a>
       </div>
     </div>
