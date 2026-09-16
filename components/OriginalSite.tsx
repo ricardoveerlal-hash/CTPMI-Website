@@ -40,7 +40,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <a href="#cells">Prayer Cells</a>
       <a href="#events">Events</a>
       <a href="#watch">Watch</a>
-      <a href="#connect">Volunteer</a>
+      <a href="#volunteer">Volunteer</a>
       <a href="#contact">Contact</a>
       <a href="/quiz" class="nav-app-link">Bible Quiz</a>
       <a href="/devotional" class="nav-app-link">Devotional of the Day</a>
@@ -437,7 +437,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
           </div>
           <p class="give-verse">"Give, and it will be given to you." — Luke 6:38</p>
         </div>
-        <div class="connect-card volunteer reveal">
+        <div id="volunteer" class="connect-card volunteer reveal">
           <span class="connect-icon">🙌</span>
           <h3>Volunteer</h3>
           <p>Got a gift to offer? There's a place for you to serve — reach out to a deacon or the leader of the ministry that speaks to your heart.</p>
