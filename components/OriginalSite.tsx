@@ -40,6 +40,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <a href="#cells">Prayer Cells</a>
       <a href="#events">Events</a>
       <a href="#watch">Watch</a>
+      <a href="#connect">Volunteer</a>
       <a href="#contact">Contact</a>
       <a href="/quiz" class="nav-app-link">Bible Quiz</a>
       <a href="/devotional" class="nav-app-link">Devotional of the Day</a>
@@ -435,6 +436,23 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
             <div class="bank-row"><span>Reference</span><strong>Your Name &amp; Cell</strong></div>
           </div>
           <p class="give-verse">"Give, and it will be given to you." — Luke 6:38</p>
+        </div>
+        <div class="connect-card volunteer reveal">
+          <span class="connect-icon">🙌</span>
+          <h3>Volunteer</h3>
+          <p>Got a gift to offer? There's a place for you to serve — reach out to a deacon or the leader of the ministry that speaks to your heart.</p>
+          <div class="bank-box">
+            <div class="bank-row"><span>Deacon</span><strong><a href="tel:+27823385799">Pooveshan Naidoo</a></strong></div>
+            <div class="bank-row"><span>Deacon</span><strong><a href="tel:+27823124988">Bongani Mdutyana</a></strong></div>
+            <div class="bank-row"><span>Deacon</span><strong><a href="tel:+27746019149">Ricardo Veerlal</a></strong></div>
+            <div class="bank-row"><span>Praise &amp; Worship</span><strong><a href="tel:+27827807710">Paul Banks</a></strong></div>
+            <div class="bank-row"><span>Kingdom Kidz</span><strong><a href="tel:+27823194910">Mandy Slater</a></strong></div>
+            <div class="bank-row"><span>Youth</span><strong><a href="tel:+27727034440">Peter Banks</a></strong></div>
+            <div class="bank-row"><span>Media &amp; Tech</span><strong><a href="tel:+27727034440">Peter Banks</a></strong></div>
+            <div class="bank-row"><span>Housing / Rehoboth</span><strong><a href="tel:+27836843760">Sagren Naidoo</a></strong></div>
+            <div class="bank-row"><span>Hands of Compassion</span><strong><a href="tel:+27834190197">Gopaul Pillay</a></strong></div>
+          </div>
+          <p class="give-verse">"Each of you should use whatever gift you have to serve others." — 1 Peter 4:10</p>
         </div>
       </div>
     </div>

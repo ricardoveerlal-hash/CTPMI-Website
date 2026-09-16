@@ -381,12 +381,13 @@
   @media (max-width:920px){ .verse-grid{ grid-template-columns:1fr; } }
 
   /* =================== CONNECT / GIVE =================== */
-  .connect-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:50px; }
+  .connect-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:22px; margin-top:50px; }
   .connect-card{
     border-radius:22px; padding:40px 36px; position:relative; overflow:hidden;
   }
   .connect-card.pray{ background:linear-gradient(155deg, var(--navy-700), var(--navy-900)); border:1px solid rgba(143,232,222,.2); }
   .connect-card.give{ background:linear-gradient(155deg, #2a1f3a, var(--navy-900)); border:1px solid rgba(217,169,78,.3); }
+  .connect-card.volunteer{ background:linear-gradient(155deg, #123933, var(--navy-900)); border:1px solid rgba(143,232,222,.35); }
   .connect-card h3{ font-family:var(--ff-display); font-size:1.6rem; margin:0 0 12px; }
   .connect-card p{ color:var(--paper-dim); line-height:1.6; margin:0 0 26px; max-width:38ch; }
   .connect-icon{ font-size:2rem; margin-bottom:18px; display:block; }
@@ -401,6 +402,8 @@
   .bank-row:last-child{ border-bottom:none; }
   .bank-row span{ color:var(--ink-mute); }
   .bank-row strong{ color:var(--gold-300); font-weight:700; text-align:right; }
+  .bank-row strong a{ color:inherit; text-decoration:none; }
+  .bank-row strong a:hover{ text-decoration:underline; }
   .give-verse{
     font-family:var(--ff-verse); font-style:italic; color:var(--gold-300);
     font-size:.98rem; margin:0 0 24px; line-height:1.5;
