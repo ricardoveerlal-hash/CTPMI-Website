@@ -26,9 +26,9 @@ export default function VersePage() {
 
   return (
     <div className="flex flex-col gap-10 pt-4">
-      <section className="flex flex-col gap-4 border-b border-white/10 pb-8">
+      <section className="flex flex-col gap-6 border-b border-white/10 pb-10">
         <div className="flex items-center gap-2 text-sm">
-          <p className="text-teal">Devotional of the day</p>
+          <p className="font-medium text-teal">Devotional of the day</p>
           {verse?.readMinutes && (
             <>
               <span className="text-paper/30">&middot;</span>
@@ -45,35 +45,37 @@ export default function VersePage() {
         {verse ? (
           <>
             {verse.title && (
-              <h2 className="font-display text-xl font-medium text-paper sm:text-2xl">
+              <h2 className="font-display text-2xl font-medium leading-snug text-paper sm:text-3xl">
                 {verse.title}
               </h2>
             )}
 
-            <blockquote className="border-l-[3px] border-teal bg-navy-800 px-4 py-3">
+            <blockquote className="border-l-[3px] border-teal bg-navy-800 px-5 py-4">
               <p className="font-display text-xl leading-snug text-paper sm:text-2xl">
                 &ldquo;{verse.text}&rdquo;
               </p>
-              <p className="mt-2 text-sm text-teal">{verse.ref}</p>
+              <p className="mt-3 text-sm text-teal">{verse.ref}</p>
             </blockquote>
 
-            {verse.body && verse.body.length > 0 ? (
-              verse.body.map((paragraph, i) => (
-                <p key={i} className="text-base leading-relaxed text-paper/80">
-                  {paragraph}
-                </p>
-              ))
-            ) : (
-              verse.encouragement && (
-                <p className="text-base italic leading-relaxed text-paper/70">
-                  {verse.encouragement}
-                </p>
-              )
-            )}
+            <div className="flex flex-col gap-4">
+              {verse.body && verse.body.length > 0 ? (
+                verse.body.map((paragraph, i) => (
+                  <p key={i} className="text-base leading-relaxed text-paper/80">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                verse.encouragement && (
+                  <p className="text-base italic leading-relaxed text-paper/70">
+                    {verse.encouragement}
+                  </p>
+                )
+              )}
+            </div>
 
             {verse.prayer && (
-              <div className="rounded-card bg-navy-700 px-4 py-3">
-                <p className="mb-1 text-xs font-medium text-gold-400">
+              <div className="rounded-card bg-navy-700 px-5 py-4">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gold-400">
                   Prayer of the day
                 </p>
                 <p className="text-sm leading-relaxed text-paper/90">
