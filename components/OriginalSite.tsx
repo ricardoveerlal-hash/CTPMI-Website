@@ -137,12 +137,12 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <rect x="6" y="55" width="128" height="30" rx="6" stroke="currentColor" stroke-width="4"/>
             </svg>
           </div>
-          <div class="svc-time">7:30 <span>&amp; 10:00</span></div>
           <div class="svc-day">Sunday Services</div>
+          <div class="svc-time">7:30 <span>&amp; 10:00</span></div>
           <div class="svc-desc">Two gatherings every Sunday — worship, the word, and a house full of faith. Kingdom Kidz runs concurrently at both celebrations.</div>
           <span class="svc-rule"></span>
         </div>
-        <div class="svc-card reveal svc-card--icon">
+        <div class="svc-card reveal">
           <div class="svc-bg svc-bg--communion" aria-hidden="true">
             <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
               <path d="M70 18 Q70 55 100 60 Q130 55 130 18 Z" fill="#d9a94e"/>
@@ -153,8 +153,8 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <path d="M157 131 Q188 148 219 131" stroke="#7a5a20" stroke-width="2" fill="none"/>
             </svg>
           </div>
-          <div class="svc-icon">🍞</div>
           <div class="svc-day">Communion</div>
+          <div class="svc-time">1st Sunday</div>
           <div class="svc-desc">First Sunday of every month, at both morning services.</div>
           <span class="svc-rule"></span>
         </div>
@@ -172,8 +172,8 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <line x1="105" y1="10" x2="118" y2="-4" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
-          <div class="svc-time">6:00</div>
           <div class="svc-day">Online Prayer</div>
+          <div class="svc-time">6:00</div>
           <div class="svc-desc">Tuesday &amp; Saturday mornings — start the day covered in prayer, wherever you are.</div>
           <span class="svc-rule"></span>
         </div>
@@ -193,12 +193,12 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <line x1="160" y1="14" x2="178" y2="-6" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
-          <div class="svc-time">10:00</div>
           <div class="svc-day">Tuesday Prayer</div>
+          <div class="svc-time">10:00</div>
           <div class="svc-desc">At the Chapel, 282 Moses Kotane Road — corporate prayer, in person.</div>
           <span class="svc-rule"></span>
         </div>
-        <div class="svc-card reveal svc-card--icon">
+        <div class="svc-card reveal">
           <div class="svc-bg svc-bg--house" aria-hidden="true">
             <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 215 Q55 150 42 95" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
@@ -208,12 +208,12 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <rect x="129" y="146" width="16" height="16" stroke="currentColor" stroke-width="3"/>
             </svg>
           </div>
-          <div class="svc-icon">🏠</div>
           <div class="svc-day">Cell Groups</div>
+          <div class="svc-time">Thu 7:00 PM</div>
           <div class="svc-desc">Every Thursday, 7:00 PM. Connect with your Zone Pastor to find your nearest group.</div>
           <span class="svc-rule"></span>
         </div>
-        <div class="svc-card reveal svc-card--icon">
+        <div class="svc-card reveal">
           <div class="svc-bg svc-bg--crown" aria-hidden="true">
             <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M20 140 L20 80 L60 110 L90 50 L120 110 L150 50 L180 110 L200 80 L200 140 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
@@ -224,8 +224,8 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
               <line x1="20" y1="140" x2="200" y2="140" stroke="currentColor" stroke-width="4"/>
             </svg>
           </div>
-          <div class="svc-icon">🔥</div>
           <div class="svc-day">Conquerors Crew · Youth</div>
+          <div class="svc-time">Tue 7:00 PM</div>
           <div class="svc-desc">Tuesdays, 7:00 PM at 180 Moses Kotane Road — our home for the next generation.</div>
           <span class="svc-rule"></span>
         </div>
@@ -326,17 +326,14 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <h2 class="h-title">Scripture that carries us.</h2>
       <div class="verse-grid">
         <div class="verse-card reveal">
-          <span class="verse-mark">"</span>
           <p class="verse-text">For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.</p>
           <p class="verse-ref">Jeremiah 29:11</p>
         </div>
         <div class="verse-card reveal">
-          <span class="verse-mark">"</span>
           <p class="verse-text">This is the day the Lord has made; we will rejoice and be glad in it.</p>
           <p class="verse-ref">Psalm 118:24</p>
         </div>
         <div class="verse-card reveal">
-          <span class="verse-mark">"</span>
           <p class="verse-text">He that believeth on the Son of God hath the witness in himself — every believer carries a testimony of His saving power.</p>
           <p class="verse-ref">1 John 5:10</p>
         </div>

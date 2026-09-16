@@ -312,11 +312,9 @@
   .svc-bg--communion svg{ opacity:.4; height:82%; }
   .svc-bg--crown{ align-items:flex-start; padding-top:16px; }
   .svc-bg--house{ justify-content:flex-end; align-items:flex-end; }
-  .svc-time, .svc-icon, .svc-day, .svc-desc, .svc-rule{ position:relative; z-index:1; }
-  .svc-time{ font-family:var(--ff-display); font-weight:700; font-size:2.1rem; color:var(--teal-300); line-height:1; }
-  .svc-icon{ font-size:1.9rem; line-height:1; }
-  .svc-day{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-300); margin:14px 0 8px; font-weight:700; }
-  .svc-card--icon .svc-day{ margin-top:16px; }
+  .svc-time, .svc-day, .svc-desc, .svc-rule{ position:relative; z-index:1; }
+  .svc-day{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-300); margin:0 0 8px; font-weight:700; }
+  .svc-time{ font-family:var(--ff-display); font-weight:700; font-size:2.1rem; color:var(--teal-300); line-height:1; margin:0 0 14px; }
   .svc-desc{ font-size:14px; color:var(--paper-dim); line-height:1.55; }
   .svc-rule{ display:block; width:26px; height:2px; background:var(--gold-300); opacity:.75; margin-top:16px; border-radius:2px; }
   .svc-tagline{ display:flex; align-items:center; justify-content:center; gap:18px; margin-top:46px; }
@@ -376,8 +374,9 @@
     background:var(--navy-800); border:1px solid rgba(255,255,255,.08);
     border-radius:20px; padding:34px 28px; position:relative;
   }
-  .verse-mark{ font-family:var(--ff-verse); font-size:3rem; color:var(--teal-500); opacity:.5; line-height:1; margin-bottom:6px; display:block; }
   .verse-text{ font-family:var(--ff-verse); font-style:italic; font-size:1.15rem; line-height:1.55; color:var(--paper); margin-bottom:18px; }
+  .verse-text::before{ content:"\201C"; }
+  .verse-text::after{ content:"\201D"; }
   .verse-ref{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-300); font-weight:700; }
   @media (max-width:920px){ .verse-grid{ grid-template-columns:1fr; } }
 
