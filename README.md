@@ -17,12 +17,12 @@ no timer (matching the WhatsApp bot, which had its timer removed
 
 | Route | Status |
 |---|---|
-| `/` | Home — real verse of the day, real quiz status/streak count |
+| `/` | Home — real devotional of the day, real quiz status/streak count |
 | `/login` | Phone number entry, calls `POST web/login`, routes to `/register` if not found |
 | `/register` | Full onboarding form (mirrors WhatsApp bot's fields), calls `POST web/register` |
 | `/quiz` | Real 5-question quiz from `GET web/quiz/today` — **no timer**, all questions shown at once, submit together via `POST web/quiz/answer` |
 | `/leaderboard` | Live data from `GET web/leaderboard`, tabs actually switch range |
-| `/verse` | Real verse of the day from `GET web/verse` (12-verse static rotation — not yet AI-generated, see Not yet built) |
+| `/verse` | "Devotional of the Day" — AI-generated title/body/prayer from `GET web/verse`, regenerated fresh on every request (verse itself is still the pinned 50-verse KJV pool, day-of-year) |
 | `/profile` | Real session + quiz stats, logout |
 
 Session is client-side only (`lib/session.tsx`, localStorage) — there's no
@@ -47,9 +47,9 @@ same tables the WhatsApp bot already uses:
 
 ## Not yet built (next steps)
 
-1. Verse archive (currently today-only; the 12-verse rotation is a
-   placeholder — the WhatsApp bot generates its verse live via AI on
-   request, so the two aren't the same content yet)
+1. Devotional archive (currently today-only; content is AI-generated fresh
+   on every page load rather than cached once per day, so a same-day
+   archive would need a caching layer first)
 2. OTP-based login (currently phone number only, no verification)
 3. Streak tracking on the home page (backend doesn't compute a streak yet)
 4. Registration doesn't clear a matching `Registration Progress` row if

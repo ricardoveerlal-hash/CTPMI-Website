@@ -70,7 +70,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <p class="lede">A non-denominational church reaching the city, the nation, and the nations of the world — through prayer and the gospel of Jesus Christ.</p>
       <div class="hero-ctas">
         <a href="/quiz" class="btn btn-ghost">🧠 Bible Quiz</a>
-        <a href="/verse" class="btn btn-ghost">📅 Verse of the Day</a>
+        <a href="/verse" class="btn btn-ghost">📅 Devotional of the Day</a>
         <a href="#services" class="btn btn-ghost">Service times</a>
       </div>
     </div>
@@ -366,7 +366,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
             </div>
             <div class="wademo-step">
               <div class="wademo-num">4</div>
-              <div><h4>Get your Verse of the Day</h4><p>Receive a fresh scripture with its reference, ready to save or share.</p></div>
+              <div><h4>Get your Devotional of the Day</h4><p>Receive a fresh scripture with its reference, ready to save or share.</p></div>
             </div>
           </div>
         </div>
