@@ -76,6 +76,14 @@ export interface VerseResponse {
   text: string;
   encouragement: string;
   firstName?: string;
+  // Devotional of the Day fields — optional so the page still renders
+  // correctly against the current simple verse-rotation backend. Once
+  // web/verse (or a dedicated web/devotional) starts returning these,
+  // the page automatically upgrades to the full devotional layout.
+  title?: string;
+  body?: string[];
+  prayer?: string;
+  readMinutes?: number;
 }
 
 export interface LoginResponse {

@@ -42,7 +42,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <a href="#watch">Watch</a>
       <a href="#contact">Contact</a>
       <a href="/quiz" class="nav-app-link">Bible Quiz</a>
-      <a href="/verse" class="nav-app-link">Verse Of the Day</a>
+      <a href="/verse" class="nav-app-link">Devotional of the Day</a>
     </nav>
     <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">☰</button>
   </div>

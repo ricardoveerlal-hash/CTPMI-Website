@@ -27,18 +27,59 @@ export default function VersePage() {
   return (
     <div className="flex flex-col gap-10 pt-4">
       <section className="flex flex-col gap-4 border-b border-white/10 pb-8">
-        <p className="text-sm text-teal">Verse of the day</p>
+        <div className="flex items-center gap-2 text-sm">
+          <p className="text-teal">Devotional of the day</p>
+          {verse?.readMinutes && (
+            <>
+              <span className="text-paper/30">&middot;</span>
+              <span className="flex items-center gap-1 text-paper/50">
+                <ClockIcon />
+                {verse.readMinutes} min read
+              </span>
+            </>
+          )}
+        </div>
+
         {errorMsg && <p className="text-sm text-red-300">{errorMsg}</p>}
+
         {verse ? (
           <>
-            <blockquote className="font-display text-2xl leading-snug text-paper sm:text-3xl">
-              &ldquo;{verse.text}&rdquo;
-            </blockquote>
-            <p className="text-sm text-paper/50">{verse.ref}</p>
-            {verse.encouragement && (
-              <p className="text-base italic leading-relaxed text-paper/70">
-                {verse.encouragement}
+            {verse.title && (
+              <h2 className="font-display text-xl font-medium text-paper sm:text-2xl">
+                {verse.title}
+              </h2>
+            )}
+
+            <blockquote className="border-l-[3px] border-teal bg-navy-800 px-4 py-3">
+              <p className="font-display text-xl leading-snug text-paper sm:text-2xl">
+                &ldquo;{verse.text}&rdquo;
               </p>
+              <p className="mt-2 text-sm text-teal">{verse.ref}</p>
+            </blockquote>
+
+            {verse.body && verse.body.length > 0 ? (
+              verse.body.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-paper/80">
+                  {paragraph}
+                </p>
+              ))
+            ) : (
+              verse.encouragement && (
+                <p className="text-base italic leading-relaxed text-paper/70">
+                  {verse.encouragement}
+                </p>
+              )
+            )}
+
+            {verse.prayer && (
+              <div className="rounded-card bg-navy-700 px-4 py-3">
+                <p className="mb-1 text-xs font-medium text-gold-400">
+                  Prayer of the day
+                </p>
+                <p className="text-sm leading-relaxed text-paper/90">
+                  {verse.prayer}
+                </p>
+              </div>
             )}
           </>
         ) : (
@@ -98,5 +139,22 @@ export default function VersePage() {
         </Link>
       </section>
     </div>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 3" />
+    </svg>
   );
 }
