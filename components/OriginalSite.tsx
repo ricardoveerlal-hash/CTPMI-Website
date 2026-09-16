@@ -42,7 +42,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <a href="#watch">Watch</a>
       <a href="#contact">Contact</a>
       <a href="/quiz" class="nav-app-link">Bible Quiz</a>
-      <a href="/verse" class="nav-app-link">Devotional of the Day</a>
+      <a href="/devotional" class="nav-app-link">Devotional of the Day</a>
     </nav>
     <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">☰</button>
   </div>
@@ -70,7 +70,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <p class="lede">A non-denominational church reaching the city, the nation, and the nations of the world — through prayer and the gospel of Jesus Christ.</p>
       <div class="hero-ctas">
         <a href="/quiz" class="btn btn-ghost">🧠 Bible Quiz</a>
-        <a href="/verse" class="btn btn-ghost">📅 Devotional of the Day</a>
+        <a href="/devotional" class="btn btn-ghost">📅 Devotional of the Day</a>
         <a href="#services" class="btn btn-ghost">Service times</a>
       </div>
     </div>

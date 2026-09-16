@@ -22,7 +22,7 @@ no timer (matching the WhatsApp bot, which had its timer removed
 | `/register` | Full onboarding form (mirrors WhatsApp bot's fields), calls `POST web/register` |
 | `/quiz` | Real 5-question quiz from `GET web/quiz/today` — **no timer**, all questions shown at once, submit together via `POST web/quiz/answer` |
 | `/leaderboard` | Live data from `GET web/leaderboard`, tabs actually switch range |
-| `/verse` | "Devotional of the Day" — AI-generated title/body/prayer from `GET web/verse`, regenerated fresh on every request (verse itself is still the pinned 50-verse KJV pool, day-of-year) |
+| `/devotional` | "Devotional of the Day" — AI-generated title/body/prayer from `GET web/verse`, regenerated fresh on every request (verse itself is still the pinned 50-verse KJV pool, day-of-year) |
 | `/profile` | Real session + quiz stats, logout |
 
 Session is client-side only (`lib/session.tsx`, localStorage) — there's no
@@ -86,7 +86,7 @@ match the existing nav items with a small teal accent dot.
   (year stamp, mobile burger menu, scroll reveals, WhatsApp bot demo
   widget) are preserved and still run.
 - `app/(app)/` — a route group for everything quiz-related
-  (`/today`, `/quiz`, `/leaderboard`, `/verse`, `/profile`, `/login`,
+  (`/today`, `/quiz`, `/leaderboard`, `/devotional`, `/profile`, `/login`,
   `/register`). These share a separate, simpler nav (`components/Header.tsx`)
   and are the only pages wired to the live `CTPMI Web API` n8n endpoints.
 

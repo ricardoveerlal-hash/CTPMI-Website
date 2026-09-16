@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSession } from "@/lib/session";
 
 const links = [
-  { href: "/verse", label: "Devotional of the Day" },
+  { href: "/devotional", label: "Devotional of the Day" },
   { href: "/quiz", label: "Quiz" },
   { href: "/leaderboard", label: "Leaderboard" },
   { href: "/profile", label: "Profile" },

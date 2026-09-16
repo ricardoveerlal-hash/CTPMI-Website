@@ -52,7 +52,7 @@ function RegisterForm() {
           fullName: result.fullName || `${firstName} ${surname}`.trim(),
           zone,
         });
-        router.push("/verse");
+        router.push("/devotional");
       } else {
         setError(result.error || "Something went wrong — please check your details.");
       }
