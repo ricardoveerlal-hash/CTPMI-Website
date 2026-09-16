@@ -442,15 +442,11 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
           <h3>Volunteer</h3>
           <p>Got a gift to offer? There's a place for you to serve — reach out to a deacon or the leader of the ministry that speaks to your heart.</p>
           <div class="bank-box">
-            <div class="bank-row"><span>Deacon</span><strong><a href="tel:+27823385799">Pooveshan Naidoo</a></strong></div>
-            <div class="bank-row"><span>Deacon</span><strong><a href="tel:+27823124988">Bongani Mdutyana</a></strong></div>
             <div class="bank-row"><span>Deacon</span><strong><a href="tel:+27746019149">Ricardo Veerlal</a></strong></div>
             <div class="bank-row"><span>Praise &amp; Worship</span><strong><a href="tel:+27827807710">Paul Banks</a></strong></div>
             <div class="bank-row"><span>Kingdom Kidz</span><strong><a href="tel:+27823194910">Mandy Slater</a></strong></div>
             <div class="bank-row"><span>Youth</span><strong><a href="tel:+27727034440">Peter Banks</a></strong></div>
             <div class="bank-row"><span>Media &amp; Tech</span><strong><a href="tel:+27727034440">Peter Banks</a></strong></div>
-            <div class="bank-row"><span>Housing / Rehoboth</span><strong><a href="tel:+27836843760">Sagren Naidoo</a></strong></div>
-            <div class="bank-row"><span>Hands of Compassion</span><strong><a href="tel:+27834190197">Gopaul Pillay</a></strong></div>
           </div>
           <p class="give-verse">"Each of you should use whatever gift you have to serve others." — 1 Peter 4:10</p>
         </div>
