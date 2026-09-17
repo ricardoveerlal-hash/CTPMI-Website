@@ -687,10 +687,10 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
     var waId = '', firstName = '', remaining = 3, limit = 3, onboard = null;
 
     // Menu chips map to item_key rows in the Church FAQ Answers table - the same rows the
-    // WhatsApp bot serves, so editing an answer once updates both channels. Word of the Day
-    // and Bible Quiz are deliberately absent: they have their own pages on this site.
+    // WhatsApp bot serves, so editing an answer once updates both channels. Word of the Day,
+    // Bible Quiz and pastoral care are deliberately absent: the first two have their own
+    // pages on this site, and prayer requests go through the site's own form.
     var MENU = [
-      { key: 6,  label: '🙏 How we can help' },
       { key: 3,  label: '🙌 Get connected' },
       { key: 1,  label: '🕗 Service times' },
       { key: 4,  label: '👶 Kids ministry' },
@@ -748,12 +748,6 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         b.onclick = function(){ pickMenu(m); };
         wrap.appendChild(b);
       });
-      [['🧠 Bible Quiz','/quiz'],['📖 Devotional','/devotional']].forEach(function(p){
-        var a = document.createElement('button');
-        a.className = 'chat-chip ext'; a.type = 'button'; a.textContent = p[0] + ' ↗';
-        a.onclick = function(){ window.open(p[1], '_blank', 'noopener'); };
-        wrap.appendChild(a);
-      });
       body.appendChild(wrap); scroll();
     }
 
@@ -765,11 +759,6 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         .then(function(d){
           doneTyping(t);
           bubble((d && d.answer) ? d.answer : 'Sorry, I could not load that one just now.', 'bot');
-          // Pastoral care: hand off to the existing prayer request form rather than asking
-          // people to type the long WhatsApp template into a chat window.
-          if (m.key === 6) {
-            card('<h4>🙏 Send it to the team</h4>Our prayer request form goes straight to the Pastoralship team and your zone pastor.<a class="chat-cta" href="#connect">Open the prayer request form →</a>');
-          }
           showMenu();
         })
         .catch(function(){
