@@ -6,7 +6,7 @@ const nextConfig = {
       {
         source: "/verse",
         destination: "/devotional",
-        permanent: true,
+        permanent: false,
       },
     ];
   },
