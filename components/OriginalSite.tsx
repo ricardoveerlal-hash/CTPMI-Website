@@ -82,7 +82,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
   <footer class="chat-foot" id="chatFoot" hidden>
     <div class="chat-meter" id="chatMeter"><span>Free questions today</span><b id="chatMeterVal">3 of 3 left</b></div>
     <div class="chat-composer">
-      <textarea id="chatInput" rows="1" placeholder="Ask me anything…" aria-label="Your message"></textarea>
+      <textarea id="chatInput" rows="1" enterkeyhint="enter" placeholder="Ask me anything…" aria-label="Your message"></textarea>
       <button class="chat-send" id="chatSend" aria-label="Send message">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
@@ -817,12 +817,10 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
     }
 
     sendBtn.onclick = send;
-    input.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
-    });
+    // Enter inserts a new line; only the send button sends the message.
     input.addEventListener('input', function(){
       this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 96) + 'px';
+      this.style.height = Math.min(this.scrollHeight, 140) + 'px';
     });
 
     // Prayer requests are collected conversationally here, then POSTed to the SAME

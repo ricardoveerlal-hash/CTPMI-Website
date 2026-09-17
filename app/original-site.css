@@ -234,7 +234,7 @@
     flex:1; resize:none; border-radius:20px; padding:11px 15px;
     background:var(--navy-800); border:1px solid rgba(143,232,222,.24);
     color:var(--paper); font-family:inherit; font-size:.92rem; line-height:1.45;
-    max-height:96px; min-height:42px;
+    max-height:140px; min-height:42px;
   }
   .chat-composer textarea:focus{ outline:none; border-color:var(--teal-400); }
   .chat-composer textarea:disabled{ opacity:.5; }
