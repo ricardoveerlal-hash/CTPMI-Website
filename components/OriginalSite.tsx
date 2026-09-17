@@ -684,13 +684,14 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
     var statusEl = document.getElementById('chatStatus');
     if (!fab || !panel) return;
 
-    var waId = '', firstName = '', remaining = 3, limit = 3, onboard = null;
+    var waId = '', firstName = '', fullName = '', zone = '', remaining = 3, limit = 3, onboard = null;
 
     // Menu chips map to item_key rows in the Church FAQ Answers table - the same rows the
     // WhatsApp bot serves, so editing an answer once updates both channels. Word of the Day,
     // Bible Quiz and pastoral care are deliberately absent: the first two have their own
     // pages on this site, and prayer requests go through the site's own form.
     var MENU = [
+      { key: 0,  label: '🙏 Prayer request', prayer: true },
       { key: 3,  label: '🙌 Get connected' },
       { key: 1,  label: '🕗 Service times' },
       { key: 4,  label: '👶 Kids ministry' },
@@ -753,6 +754,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
 
     function pickMenu(m){
       bubble(m.label.replace(/^\\S+\\s/, ''), 'me');
+      if (m.prayer) { startPrayer(); return; }
       var t = typing();
       fetch(API + '/web/chat/faq?wa_id=' + encodeURIComponent(waId) + '&key=' + m.key)
         .then(function(r){ return r.json(); })
@@ -823,6 +825,98 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       this.style.height = Math.min(this.scrollHeight, 96) + 'px';
     });
 
+    // Prayer requests are collected conversationally here, then POSTed to the SAME
+    // website-prayer-request webhook the site's Request Prayer form uses - so the email to
+    // the Pastoralship team and the Engagement Log entry stay in one place, not duplicated.
+    function startPrayer(){
+      var req = { request_type: '', full_name: fullName || '', zone: zone || '', prayer_request: '' };
+
+      function askType(){
+        bubble('Of course — we\\'d be honoured to stand with you. 💛\\n\\nWhat do you need?', 'bot');
+        var wrap = document.createElement('div');
+        wrap.className = 'chat-chips';
+        ['Prayer','Home Visit','Hospital Visit','Counselling','Baptism','Child Dedication'].forEach(function(t){
+          var b = document.createElement('button');
+          b.className = 'chat-chip'; b.type = 'button'; b.textContent = t;
+          b.onclick = function(){
+            wrap.remove();
+            bubble(t, 'me');
+            req.request_type = t === 'Prayer' ? 'Prayer Request' : t;
+            askName();
+          };
+          wrap.appendChild(b);
+        });
+        body.appendChild(wrap); scroll();
+      }
+
+      function askName(){
+        if (req.full_name){ confirmName(); return; }
+        bubble('Thank you. What is your full name?', 'bot');
+        onboard = function(a){ req.full_name = a.trim(); onboard = null; askZone(); };
+      }
+
+      function confirmName(){
+        bubble('Thank you. I have your name as *' + req.full_name + '* — is that right? If not, just type the correct name. Otherwise reply *yes*.', 'bot');
+        onboard = function(a){
+          if (!/^(y|yes|yep|correct|right)$/i.test(a.trim())) req.full_name = a.trim();
+          onboard = null; askZone();
+        };
+      }
+
+      function askZone(){
+        if (req.zone){ askDetails(); return; }
+        bubble('Which area are you in? (e.g. Overport, Phoenix, Chatsworth)', 'bot');
+        onboard = function(a){ req.zone = a.trim(); onboard = null; askDetails(); };
+      }
+
+      function askDetails(){
+        var label = /Visit/i.test(req.request_type)
+          ? 'Please share the details — the address or hospital, and anything we should know. 🙏'
+          : 'Please share your request — as much or as little as you would like us to pray for. 🙏';
+        bubble(label, 'bot');
+        onboard = function(a){ req.prayer_request = a.trim(); onboard = null; submitPrayer(); };
+      }
+
+      function submitPrayer(){
+        var t = typing();
+        fetch(API + '/website-prayer-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            request_type: req.request_type,
+            full_name: req.full_name,
+            cell_number: waId ? ('0' + waId.slice(2)) : '',
+            zone: req.zone,
+            prayer_request: req.prayer_request,
+            ctpmi_member: 'Website chat'
+          })
+        })
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            doneTyping(t);
+            if (d && d.success){
+              bubble('Thank you for trusting us with this. 💛', 'bot');
+              card('<h4>🙏 Sent to the team</h4>' +
+                '<div class="chat-kv"><span>Request</span><strong>' + esc(req.request_type) + '</strong></div>' +
+                '<div class="chat-kv"><span>Name</span><strong>' + esc(req.full_name) + '</strong></div>' +
+                '<div class="chat-kv"><span>Area</span><strong>' + esc(req.zone) + '</strong></div>' +
+                '<p class="chat-note">This has gone straight to our Pastoralship team, and your zone pastor will be notified where possible. Someone will be in touch.</p>');
+              bubble('We are praying with you. You and I will Conquer Through Prayer!! 🙏', 'bot');
+            } else {
+              bubble('I could not send that through just now, I am so sorry. 💛 Please try again in a moment, or call the church office on +27 63 861 8667 and we will help you straight away.', 'bot');
+            }
+            showMenu();
+          })
+          .catch(function(){
+            doneTyping(t);
+            bubble('I could not send that through just now, I am so sorry. 💛 Please try again in a moment, or call the church office on +27 63 861 8667 and we will help you straight away.', 'bot');
+            showMenu();
+          });
+      }
+
+      askType();
+    }
+
     // First-time visitors: collect name + area, then write to Church Members via the same
     // /web/register endpoint the site's sign-up uses, so they're recognised on WhatsApp too.
     function startOnboarding(){
@@ -839,6 +933,8 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         data.zone = answer;
         onboard = null;
         firstName = data.firstName;
+        fullName = (data.firstName + ' ' + data.surname).trim();
+        zone = data.zone;
         var t = typing();
         fetch(API + '/web/register', {
           method: 'POST',
@@ -866,8 +962,14 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       return null;
     }
 
-    function openPanel(){ panel.hidden = false; fab.hidden = true; }
-    function closePanel(){ panel.hidden = true; fab.hidden = false; }
+    function openPanel(){
+      panel.hidden = false; fab.hidden = true;
+      if (window.matchMedia('(max-width:699px)').matches) document.body.style.overflow = 'hidden';
+    }
+    function closePanel(){
+      panel.hidden = true; fab.hidden = false;
+      document.body.style.overflow = '';
+    }
     fab.onclick = openPanel;
     document.getElementById('chatClose').onclick = closePanel;
     document.addEventListener('keydown', function(e){
@@ -896,6 +998,8 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
           try { localStorage.setItem('ctpmi_chat_wa', wa); } catch (e) {}
           if (d.found){
             firstName = d.firstName || '';
+            fullName = d.fullName || '';
+            zone = d.zone || '';
             var hi = firstName ? ('Hi *' + firstName + '*! 👋 Lovely to have you back.') : 'Welcome back! 👋';
             bubble(hi + '\\n\\nI\\'m right here to help — tap an option below, or just type your question.', 'bot');
             showMenu();
