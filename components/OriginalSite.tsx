@@ -49,9 +49,46 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
   </div>
 </header>
 
-<a href="https://wa.me/27834834334?text=Hi%20CTPMI%20Official" class="wa-float" aria-label="Chat with CTPMI on WhatsApp">
-  <svg viewBox="0 0 24 24" fill="#06301c" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.05 2C6.526 2 2.05 6.477 2.05 12c0 1.83.487 3.552 1.34 5.036L2 22l5.107-1.34A9.94 9.94 0 0 0 12.05 22c5.523 0 10-4.477 10-10S17.573 2 12.05 2zm0 18.184a8.16 8.16 0 0 1-4.166-1.143l-.299-.177-3.038.797.81-2.96-.194-.303a8.15 8.15 0 0 1-1.267-4.398c0-4.508 3.667-8.174 8.174-8.174 4.508 0 8.174 3.666 8.174 8.174 0 4.507-3.666 8.184-8.174 8.184z"/></svg>
-</a>
+<button class="chat-fab" id="chatFab" aria-label="Chat with CTPMI">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.02 2 11c0 2.5 1.13 4.75 2.95 6.36-.13 1.1-.6 2.6-1.7 3.9 0 0 2.9-.4 5-2.1 1.16.37 2.42.57 3.75.57 5.52 0 10-4.02 10-9S17.52 2 12 2z"/></svg>
+  <span class="chat-fab-label">Chat with us</span>
+  <span class="chat-fab-dot"></span>
+</button>
+
+<section class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat with CTPMI" aria-modal="false" hidden>
+  <header class="chat-head">
+    <div class="chat-avatar">🙏</div>
+    <div class="chat-id">
+      <strong>CTPMI Assistant</strong>
+      <span><i class="chat-dot"></i> <span id="chatStatus">Online now</span></span>
+    </div>
+    <button class="chat-close" id="chatClose" aria-label="Close chat">&times;</button>
+  </header>
+
+  <div class="chat-body" id="chatBody" aria-live="polite">
+    <div class="chat-gate" id="chatGate">
+      <h3>Let's get you connected</h3>
+      <p>Pop in your cell number to start chatting. It's the same number you use on WhatsApp, so we'll recognise you either way.</p>
+      <div class="chat-field">
+        <label for="chatCell">Cell number</label>
+        <input id="chatCell" type="tel" inputmode="numeric" placeholder="082 123 4567" autocomplete="tel">
+        <div class="chat-err" id="chatCellErr">That doesn't look like a South African cell number.</div>
+      </div>
+      <button class="chat-start" id="chatStart">Start chatting</button>
+      <div class="chat-why">🔒 We use your number to recognise you and route prayer requests to your zone pastor. We never share it.</div>
+    </div>
+  </div>
+
+  <footer class="chat-foot" id="chatFoot" hidden>
+    <div class="chat-meter" id="chatMeter"><span>Free questions today</span><b id="chatMeterVal">3 of 3 left</b></div>
+    <div class="chat-composer">
+      <textarea id="chatInput" rows="1" placeholder="Ask me anything…" aria-label="Your message"></textarea>
+      <button class="chat-send" id="chatSend" aria-label="Send message">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </footer>
+</section>
 
 <main id="top">
 
@@ -630,6 +667,262 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         submitLabel.textContent = 'Send Request';
       }
     });
+  })();
+
+  /* =================== WEB CHAT =================== */
+  (function(){
+    var API = 'https://n8n.lirotech.co.za/webhook';
+    var fab = document.getElementById('chatFab');
+    var panel = document.getElementById('chatPanel');
+    var body = document.getElementById('chatBody');
+    var foot = document.getElementById('chatFoot');
+    var gate = document.getElementById('chatGate');
+    var input = document.getElementById('chatInput');
+    var sendBtn = document.getElementById('chatSend');
+    var meter = document.getElementById('chatMeter');
+    var meterVal = document.getElementById('chatMeterVal');
+    var statusEl = document.getElementById('chatStatus');
+    if (!fab || !panel) return;
+
+    var waId = '', firstName = '', remaining = 3, limit = 3, onboard = null;
+
+    // Menu chips map to item_key rows in the Church FAQ Answers table - the same rows the
+    // WhatsApp bot serves, so editing an answer once updates both channels. Word of the Day
+    // and Bible Quiz are deliberately absent: they have their own pages on this site.
+    var MENU = [
+      { key: 6,  label: '🙏 How we can help' },
+      { key: 3,  label: '🙌 Get connected' },
+      { key: 1,  label: '🕗 Service times' },
+      { key: 4,  label: '👶 Kids ministry' },
+      { key: 16, label: '🔥 Conquerors Crew' },
+      { key: 2,  label: '📍 Find us' },
+      { key: 13, label: '📺 Watch live' },
+      { key: 5,  label: '💛 Give' }
+    ];
+
+    function scroll(){ body.scrollTop = body.scrollHeight; }
+
+    function esc(t){ return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // WhatsApp markup (*bold*, _italic_) -> HTML, and bare links/phone numbers -> tappable.
+    function fmt(t){
+      return esc(t)
+        .replace(/\\*([^*\\n]+)\\*/g, '<strong>$1</strong>')
+        .replace(/_([^_\\n]+)_/g, '<em>$1</em>')
+        .replace(/(https?:\\/\\/[^\\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+        .replace(/(\\+27\\s?\\d{2}\\s?\\d{3}\\s?\\d{4})/g, function(m){
+          return '<a href="tel:' + m.replace(/[^0-9+]/g,'') + '">' + m + '</a>';
+        });
+    }
+
+    function bubble(text, who){
+      var r = document.createElement('div');
+      r.className = 'chat-row ' + (who === 'me' ? 'me' : 'bot');
+      r.innerHTML = '<div class="chat-bub">' + fmt(text) + '</div>';
+      body.appendChild(r); scroll(); return r;
+    }
+
+    function card(html){
+      var r = document.createElement('div');
+      r.className = 'chat-row bot';
+      r.innerHTML = '<div class="chat-card">' + html + '</div>';
+      body.appendChild(r); scroll(); return r;
+    }
+
+    function typing(){
+      var r = document.createElement('div');
+      r.className = 'chat-row bot';
+      r.innerHTML = '<div class="chat-bub chat-typing"><i></i><i></i><i></i></div>';
+      body.appendChild(r); scroll();
+      statusEl.textContent = 'typing…';
+      return r;
+    }
+    function doneTyping(t){ if (t) t.remove(); statusEl.textContent = 'Online now'; }
+
+    function showMenu(){
+      var wrap = document.createElement('div');
+      wrap.className = 'chat-chips';
+      MENU.forEach(function(m){
+        var b = document.createElement('button');
+        b.className = 'chat-chip'; b.type = 'button'; b.textContent = m.label;
+        b.onclick = function(){ pickMenu(m); };
+        wrap.appendChild(b);
+      });
+      [['🧠 Bible Quiz','/quiz'],['📖 Devotional','/devotional']].forEach(function(p){
+        var a = document.createElement('button');
+        a.className = 'chat-chip ext'; a.type = 'button'; a.textContent = p[0] + ' ↗';
+        a.onclick = function(){ window.open(p[1], '_blank', 'noopener'); };
+        wrap.appendChild(a);
+      });
+      body.appendChild(wrap); scroll();
+    }
+
+    function pickMenu(m){
+      bubble(m.label.replace(/^\\S+\\s/, ''), 'me');
+      var t = typing();
+      fetch(API + '/web/chat/faq?wa_id=' + encodeURIComponent(waId) + '&key=' + m.key)
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          doneTyping(t);
+          bubble((d && d.answer) ? d.answer : 'Sorry, I could not load that one just now.', 'bot');
+          // Pastoral care: hand off to the existing prayer request form rather than asking
+          // people to type the long WhatsApp template into a chat window.
+          if (m.key === 6) {
+            card('<h4>🙏 Send it to the team</h4>Our prayer request form goes straight to the Pastoralship team and your zone pastor.<a class="chat-cta" href="#connect">Open the prayer request form →</a>');
+          }
+          showMenu();
+        })
+        .catch(function(){
+          doneTyping(t);
+          bubble('I could not reach that just now — please check your connection and try again. 💛', 'bot');
+          showMenu();
+        });
+    }
+
+    function updateMeter(){
+      meterVal.textContent = remaining + ' of ' + limit + ' left';
+      meter.className = 'chat-meter' + (remaining <= 0 ? ' out' : (remaining === 1 ? ' warn' : ''));
+      if (remaining <= 0){
+        input.disabled = true; sendBtn.disabled = true;
+        input.placeholder = 'Daily limit reached — tap a menu option';
+      }
+    }
+
+    function askAI(text){
+      var t = typing();
+      fetch(API + '/web/chat/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wa_id: waId, message: text, firstName: firstName })
+      })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          doneTyping(t);
+          d = d || {};
+          if (typeof d.remaining === 'number') remaining = d.remaining;
+          if (typeof d.limit === 'number') limit = d.limit;
+          bubble(d.answer || 'Sorry, something went wrong there. Please try again in a moment. 💛', 'bot');
+          updateMeter();
+          if (d.limited) showMenu();
+        })
+        .catch(function(){
+          doneTyping(t);
+          bubble('I could not reach our system just now — please check your connection and try again. 💛', 'bot');
+        });
+    }
+
+    function send(){
+      var t = input.value.trim();
+      if (!t) return;
+      input.value = ''; input.style.height = 'auto';
+      bubble(t, 'me');
+      if (onboard) { onboard(t); return; }
+      if (/^(menu|hi|hello|start|help)$/i.test(t)) {
+        bubble('Here\\'s everything I can help with 👇', 'bot');
+        showMenu();
+        return;
+      }
+      askAI(t);
+    }
+
+    sendBtn.onclick = send;
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+    input.addEventListener('input', function(){
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 96) + 'px';
+    });
+
+    // First-time visitors: collect name + area, then write to Church Members via the same
+    // /web/register endpoint the site's sign-up uses, so they're recognised on WhatsApp too.
+    function startOnboarding(){
+      var data = {}, step = 0;
+      bubble('Welcome to CTPMI! 👋 I don\\'t think we\\'ve met yet.\\n\\nWhat should I call you?', 'bot');
+      onboard = function(answer){
+        if (step === 0){
+          data.firstName = answer.split(/\\s+/)[0];
+          data.surname = answer.split(/\\s+/).slice(1).join(' ');
+          step = 1;
+          bubble('Lovely to meet you, *' + data.firstName + '*! 💛\\n\\nWhich area are you in? (e.g. Overport, Phoenix, Chatsworth)', 'bot');
+          return;
+        }
+        data.zone = answer;
+        onboard = null;
+        firstName = data.firstName;
+        var t = typing();
+        fetch(API + '/web/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            wa_id: waId, firstName: data.firstName, surname: data.surname,
+            zone: data.zone, isCtpmiMember: false
+          })
+        })
+          .then(function(r){ return r.json(); })
+          .catch(function(){ return null; })
+          .then(function(){
+            doneTyping(t);
+            bubble('Perfect — you\\'re all set, *' + data.firstName + '*. 🙌', 'bot');
+            bubble('Here\\'s what I can help with 👇', 'bot');
+            showMenu();
+          });
+      };
+    }
+
+    function normalise(v){
+      var d = String(v || '').replace(/\\D/g, '');
+      if (d.indexOf('27') === 0 && d.length === 11) return d;
+      if (d.indexOf('0') === 0 && d.length === 10) return '27' + d.slice(1);
+      return null;
+    }
+
+    function openPanel(){ panel.hidden = false; fab.hidden = true; }
+    function closePanel(){ panel.hidden = true; fab.hidden = false; }
+    fab.onclick = openPanel;
+    document.getElementById('chatClose').onclick = closePanel;
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !panel.hidden) closePanel();
+    });
+
+    var startBtn = document.getElementById('chatStart');
+    var cellInput = document.getElementById('chatCell');
+    startBtn.onclick = function(){
+      var wa = normalise(cellInput.value);
+      var err = document.getElementById('chatCellErr');
+      if (!wa){ err.classList.add('show'); return; }
+      err.classList.remove('show');
+      startBtn.disabled = true; startBtn.textContent = 'Just a moment…';
+      waId = wa;
+      fetch(API + '/web/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wa_id: wa })
+      })
+        .then(function(r){ return r.json(); })
+        .catch(function(){ return { found: false }; })
+        .then(function(d){
+          d = d || {};
+          gate.remove(); foot.hidden = false; updateMeter();
+          try { localStorage.setItem('ctpmi_chat_wa', wa); } catch (e) {}
+          if (d.found){
+            firstName = d.firstName || '';
+            var hi = firstName ? ('Hi *' + firstName + '*! 👋 Lovely to have you back.') : 'Welcome back! 👋';
+            bubble(hi + '\\n\\nI\\'m right here to help — tap an option below, or just type your question.', 'bot');
+            showMenu();
+          } else {
+            startOnboarding();
+          }
+        });
+    };
+    cellInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') startBtn.click();
+    });
+    // Returning visitors on the same device get their number pre-filled.
+    try {
+      var saved = localStorage.getItem('ctpmi_chat_wa');
+      if (saved) cellInput.value = '0' + saved.slice(2);
+    } catch (e) {}
   })();
 `;
 
