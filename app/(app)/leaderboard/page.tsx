@@ -147,8 +147,11 @@ export default function LeaderboardPage() {
                       <p className="flex max-w-full items-center gap-1 truncate text-center text-sm font-semibold text-paper">
                         <span>{avatarFor(player.name)}</span> {player.name}
                       </p>
-                      <p className="text-xs text-paper/50">
-                        {player.correct}/{player.played}
+                      <p className="text-xs font-semibold text-teal-light">
+                        {player.points} pts
+                      </p>
+                      <p className="text-[11px] text-paper/50">
+                        {player.correct} correct{typeof player.accuracy === "number" ? ` · ${player.accuracy}%` : ""}
                       </p>
                       <div className={`relative w-full overflow-hidden rounded-t-card border border-b-0 ${barStyle} ${heights}`}>
                         {isFirst && (
@@ -162,7 +165,7 @@ export default function LeaderboardPage() {
             </section>
           )}
 
-          <Section title="Top 10" subtitle="Ranked by correct answers" emoji="📊">
+          <Section title="Top 10" subtitle="Ranked by points — correct answers, boosted by accuracy" emoji="📊">
             {rest.length || podium.length ? (
               <ol className="flex flex-col gap-2">
                 {rest.map((player, i) => (
@@ -178,8 +181,11 @@ export default function LeaderboardPage() {
                       <span className="text-base transition-transform group-hover:animate-wiggle">{avatarFor(player.name)}</span>
                       <span className="text-paper">{player.name}</span>
                     </span>
-                    <span className="text-sm text-paper/60">
-                      {player.correct}/{player.played}
+                    <span className="flex flex-col items-end">
+                      <span className="text-sm font-semibold text-teal-light">{player.points} pts</span>
+                      <span className="text-[11px] text-paper/50">
+                        {player.correct} correct{typeof player.accuracy === "number" ? ` · ${player.accuracy}%` : ""}
+                      </span>
                     </span>
                   </li>
                 ))}

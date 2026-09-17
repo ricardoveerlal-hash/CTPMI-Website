@@ -48,6 +48,9 @@ export interface QuizAnswerResponse {
 export interface LeaderboardEntry {
   position: number;
   name: string;
+  // points = correct * (1 + accuracy) — the shared formula used by the WhatsApp bot,
+  // the Reporting Portal and /web/leaderboard. This is what rows are ranked by.
+  points: number;
   accuracy?: number;
   correct: number;
   played: number;
