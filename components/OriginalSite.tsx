@@ -802,6 +802,10 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         });
     }
 
+    // Typed prayer requests should collect and email properly, not be answered by the AI
+    // (which would burn a daily question and only describe the process).
+    var PRAYER_INTENT = /\\b(pray(er|ing)?\\s*(for|request|with)?|please\\s+pray|need\\s+prayer|prayer\\s+request|hospital\\s+visit|home\\s+visit|counsell?ing|child\\s+dedication)\\b/i;
+
     function send(){
       var t = input.value.trim();
       if (!t) return;
@@ -813,6 +817,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         showMenu();
         return;
       }
+      if (PRAYER_INTENT.test(t)) { startPrayer(t); return; }
       askAI(t);
     }
 
@@ -826,8 +831,8 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
     // Prayer requests are collected conversationally here, then POSTed to the SAME
     // website-prayer-request webhook the site's Request Prayer form uses - so the email to
     // the Pastoralship team and the Engagement Log entry stay in one place, not duplicated.
-    function startPrayer(){
-      var req = { request_type: '', full_name: fullName || '', zone: zone || '', prayer_request: '' };
+    function startPrayer(prefillDetails){
+      var req = { request_type: '', full_name: fullName || '', zone: zone || '', prayer_request: (prefillDetails || '').trim() };
 
       function askType(){
         bubble('Of course — we\\'d be honoured to stand with you. 💛\\n\\nWhat do you need?', 'bot');
@@ -868,6 +873,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       }
 
       function askDetails(){
+        if (req.prayer_request){ submitPrayer(); return; }
         var label = /Visit/i.test(req.request_type)
           ? 'Please share the details — the address or hospital, and anything we should know. 🙏'
           : 'Please share your request — as much or as little as you would like us to pray for. 🙏';
@@ -960,14 +966,11 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       return null;
     }
 
-    function openPanel(){
-      panel.hidden = false; fab.hidden = true;
-      if (window.matchMedia('(max-width:699px)').matches) document.body.style.overflow = 'hidden';
-    }
-    function closePanel(){
-      panel.hidden = true; fab.hidden = false;
-      document.body.style.overflow = '';
-    }
+    // No body overflow lock here: on iOS Safari, setting overflow:hidden on body while the
+    // page is scrolled shifts position:fixed elements, which left gaps above and below the
+    // panel. overscroll-behavior on .chat-body stops scroll chaining instead.
+    function openPanel(){ panel.hidden = false; fab.hidden = true; }
+    function closePanel(){ panel.hidden = true; fab.hidden = false; }
     fab.onclick = openPanel;
     document.getElementById('chatClose').onclick = closePanel;
     document.addEventListener('keydown', function(e){
