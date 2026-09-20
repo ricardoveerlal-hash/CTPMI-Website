@@ -7,6 +7,12 @@ export interface QuizQuestion {
   id: number;
   question: string;
   options: Record<QuizOption, string>;
+  // Optional fields — the one-question-at-a-time player upgrades itself when
+  // the backend starts returning them. Without `correct` it locks each answer
+  // in and shows the full breakdown at the end (current behaviour).
+  correct?: QuizOption; // enables instant right/wrong feedback, points and 50/50
+  reference?: string; // e.g. "1 Kings 17:6" — shown after each answer
+  hint?: string; // enables the Hint lifeline
 }
 
 export interface QuizTodayResponse {

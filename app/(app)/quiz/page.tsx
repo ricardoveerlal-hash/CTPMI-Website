@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/session";
-import { api, type QuizOption, type QuizTodayResponse, type QuizAnswerResponse } from "@/lib/api";
+import QuizPlayer from "@/components/QuizPlayer";
+import { api, type QuizTodayResponse, type QuizAnswerResponse } from "@/lib/api";
 
 type Screen = "loading" | "quiz" | "already_played" | "results" | "error";
 
@@ -11,11 +12,9 @@ export default function QuizPage() {
   const { session, loading: sessionLoading } = useSession();
   const [screen, setScreen] = useState<Screen>("loading");
   const [quiz, setQuiz] = useState<QuizTodayResponse | null>(null);
-  const [answers, setAnswers] = useState<Record<number, QuizOption>>({});
   const [result, setResult] = useState<QuizAnswerResponse | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [shakeQuestionId, setShakeQuestionId] = useState<number | null>(null);
 
   useEffect(() => {
     if (sessionLoading) return;
@@ -36,15 +35,11 @@ export default function QuizPage() {
       });
   }, [session, sessionLoading]);
 
-  function selectAnswer(questionId: number, option: QuizOption) {
-    setAnswers((prev) => ({ ...prev, [questionId]: option }));
-  }
-
-  async function handleSubmit() {
+  async function handleSubmit(orderedAnswers: string[]) {
     if (!session || !quiz) return;
     setSubmitting(true);
+    setErrorMsg("");
     try {
-      const orderedAnswers = quiz.questions.map((q) => answers[q.id] || "");
       const res = await api.submitQuizAnswer(session.waId, orderedAnswers);
       setResult(res);
       setScreen("results");
@@ -145,71 +140,14 @@ export default function QuizPage() {
   }
 
   if (screen === "quiz" && quiz) {
-    const answeredCount = Object.keys(answers).length;
     return (
-      <div className="flex flex-col gap-8 pt-4">
-        <div>
-          <p className="text-sm text-teal">{quiz.tierName} difficulty</p>
-          <p className="mt-1 text-xs text-paper/50">
-            {answeredCount}/{quiz.questions.length} answered — take your time, no timer
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-6">
-          {quiz.questions.map((q, i) => (
-            <div
-              key={q.id}
-              className={`flex flex-col gap-3 animate-fade-slide-up ${
-                shakeQuestionId === q.id ? "animate-shake-x" : ""
-              }`}
-              style={{ animationDelay: `${i * 0.06}s` }}
-            >
-              <p className="font-display text-lg leading-snug text-paper">
-                {i + 1}. {q.question}
-              </p>
-              <div className="flex flex-col gap-2">
-                {(Object.keys(q.options) as QuizOption[]).map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      selectAnswer(q.id, opt);
-                      setShakeQuestionId(null);
-                    }}
-                    className={`rounded-card border px-4 py-3 text-left transition-colors ${
-                      answers[q.id] === opt
-                        ? "animate-pop-in border-teal bg-teal/10 text-paper"
-                        : "border-white/15 bg-navy-800 text-paper/80 hover:border-teal/50"
-                    }`}
-                  >
-                    {q.options[opt]}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {errorMsg && <p className="text-sm text-red-300">{errorMsg}</p>}
-
-        <button
-          type="button"
-          onClick={() => {
-            if (answeredCount < quiz.questions.length) {
-              const unanswered = quiz.questions.find((q) => !answers[q.id]);
-              if (unanswered) setShakeQuestionId(unanswered.id);
-              return;
-            }
-            handleSubmit();
-          }}
-          disabled={submitting}
-          className={`rounded-card bg-teal px-4 py-3 text-center font-medium text-navy-900 transition-opacity hover:opacity-90 disabled:opacity-40 ${
-            answeredCount === quiz.questions.length ? "animate-pulse-ring" : ""
-          }`}
-        >
-          {submitting ? "Submitting..." : "Submit answers"}
-        </button>
-      </div>
+      <QuizPlayer
+        tierName={quiz.tierName}
+        questions={quiz.questions}
+        submitting={submitting}
+        errorMsg={errorMsg}
+        onFinish={handleSubmit}
+      />
     );
   }
 
