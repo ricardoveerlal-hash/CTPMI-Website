@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { QuizOption, QuizQuestion } from "@/lib/api";
 
-const SECONDS_PER_QUESTION = 20;
+const SECONDS_PER_QUESTION = 60;
 const LOCK_IN_DELAY_MS = 650;
 const RING_R = 26;
 const RING_C = 2 * Math.PI * RING_R;
