@@ -110,6 +110,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
         <a href="/quiz" class="btn btn-ghost">🧠 Bible Quiz</a>
         <a href="/devotional" class="btn btn-ghost">📅 Devotional of the Day</a>
         <a href="#services" class="btn btn-ghost">Service times</a>
+        <a href="#latest" id="heroLatest" class="btn btn-ghost btn-fresh" hidden>🔥 Fresh Fire</a>
       </div>
     </div>
   </section>
@@ -323,6 +324,18 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
           <h3>A house united in prayer.</h3>
           <p>From citywide prayer revivals to conferences that gather leaders and believers from across the nation, CTPMI's calendar is built around one conviction — that revival starts on our knees. Our latest event flyers are shared on our socials, so keep an eye out.</p>
           <a href="https://www.facebook.com/CTPMIpage" target="_blank" rel="noopener" class="btn btn-solid" style="align-self:flex-start;">Get event updates ↗</a>
+        </div>
+      </div>
+
+      <div id="latest" class="latest-tile reveal" hidden>
+        <div class="latest-media">
+          <button type="button" class="latest-zoom" id="latestZoom" aria-label="View the full image"><img id="latestImg" alt="" loading="lazy"></button>
+        </div>
+        <div class="latest-copy">
+          <span class="latest-badge">🔥 Just dropped</span>
+          <h3 id="latestTitle">Fresh Fire</h3>
+          <p id="latestCaption"></p>
+          <a id="latestLink" class="btn btn-solid" target="_blank" rel="noopener" hidden></a>
         </div>
       </div>
     </div>
@@ -1017,6 +1030,49 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
       var saved = localStorage.getItem('ctpmi_chat_wa');
       if (saved) cellInput.value = '0' + saved.slice(2);
     } catch (e) {}
+  })();
+
+  /* =================== FRESH FIRE (latest update tile) =================== */
+  (function(){
+    var tile = document.getElementById('latest');
+    if (!tile) return;
+    var heroBtn = document.getElementById('heroLatest');
+    var img = document.getElementById('latestImg');
+    fetch('https://n8n.lirotech.co.za/webhook/web/latest')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.active || !d.imageUrl) return;
+        img.src = d.imageUrl;
+        img.alt = d.title || 'The latest at CTPMI';
+        document.getElementById('latestTitle').textContent = d.title || 'Fresh Fire';
+        var cap = document.getElementById('latestCaption');
+        cap.textContent = d.caption || '';
+        cap.style.display = d.caption ? '' : 'none';
+        var link = document.getElementById('latestLink');
+        if (d.linkUrl && /^https?:/i.test(d.linkUrl)) {
+          link.href = d.linkUrl;
+          link.textContent = (d.linkLabel || 'Learn more') + ' ↗';
+          link.hidden = false;
+        }
+        tile.hidden = false;
+        if (heroBtn) heroBtn.hidden = false;
+      })
+      .catch(function () {});
+
+    document.getElementById('latestZoom').addEventListener('click', function () {
+      if (!img.src) return;
+      var box = document.createElement('div');
+      box.className = 'latest-lightbox';
+      var big = document.createElement('img');
+      big.src = img.src;
+      big.alt = img.alt;
+      box.appendChild(big);
+      var close = function () { box.remove(); document.removeEventListener('keydown', onKey); };
+      var onKey = function (e) { if (e.key === 'Escape') close(); };
+      box.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+      document.body.appendChild(box);
+    });
   })();
 `;
 
