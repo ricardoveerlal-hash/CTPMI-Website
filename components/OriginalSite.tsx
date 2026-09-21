@@ -1056,6 +1056,18 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         }
         tile.hidden = false;
         if (heroBtn) heroBtn.hidden = false;
+        // The tile is hidden until this fetch resolves, so the browser can't
+        // jump to #latest on load. Do it ourselves once the tile is visible.
+        if (location.hash === '#latest') {
+          var moved = false;
+          var stop = function () { moved = true; };
+          window.addEventListener('wheel', stop, { once: true, passive: true });
+          window.addEventListener('touchmove', stop, { once: true, passive: true });
+          var go = function () { if (!moved) tile.scrollIntoView({ block: 'start' }); };
+          go();
+          img.addEventListener('load', go, { once: true });
+          setTimeout(go, 500);
+        }
       })
       .catch(function () {});
 

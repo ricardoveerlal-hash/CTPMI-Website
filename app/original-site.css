@@ -546,7 +546,7 @@
   .btn-fresh:hover{ border-color:var(--gold-400); color:var(--gold-400); }
   .latest-tile{
     display:flex; flex-direction:column; align-items:stretch;
-    width:100%; max-width:560px; margin:28px auto 0; border-radius:26px; overflow:hidden;
+    width:100%; max-width:560px; margin:28px auto 0; scroll-margin-top:96px; border-radius:26px; overflow:hidden;
     border:1px solid rgba(217,169,78,.4);
     background:linear-gradient(150deg, var(--navy-800), var(--navy-900));
     box-shadow:0 30px 60px -34px rgba(217,169,78,.35);
