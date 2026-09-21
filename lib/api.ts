@@ -62,6 +62,8 @@ export interface LeaderboardEntry {
   played: number;
   // Monthly view only: whether this player has reached the minimum quizzes to win the month.
   qualified?: boolean;
+  // Monthly view only: admin/test accounts that can never win. Shown, but with no eligibility label.
+  exempt?: boolean;
 }
 
 export type LeaderboardRange = "month" | "today" | "7d" | "30d" | "all";

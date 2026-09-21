@@ -178,7 +178,7 @@ export default function LeaderboardPage() {
                       <p className="text-[11px] text-paper/50">
                         {player.correct} correct{typeof player.accuracy === "number" ? ` · ${player.accuracy}%` : ""}
                       </p>
-                      {isMonthView && (
+                      {isMonthView && !player.exempt && (
                         <p className={`text-[10px] font-semibold ${player.qualified ? "text-gold-400" : "text-paper/40"}`}>
                           {player.qualified ? "✓ Eligible" : `${player.played}/${minPlayed} to qualify`}
                         </p>
@@ -224,7 +224,7 @@ export default function LeaderboardPage() {
                       <span className="text-[11px] text-paper/50">
                         {player.correct} correct{typeof player.accuracy === "number" ? ` · ${player.accuracy}%` : ""}
                       </span>
-                      {isMonthView && (
+                      {isMonthView && !player.exempt && (
                         <span
                           className={`text-[10px] font-semibold ${player.qualified ? "text-gold-400" : "text-paper/40"}`}
                         >
