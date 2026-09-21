@@ -487,6 +487,7 @@
   .svc-time, .svc-day, .svc-desc, .svc-rule{ position:relative; z-index:1; }
   .svc-day{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-300); margin:0 0 8px; font-weight:700; }
   .svc-time{ font-family:var(--ff-display); font-weight:700; font-size:2.1rem; color:var(--teal-300); line-height:1; margin:0 0 14px; }
+  .svc-time .ampm{ font-size:.5em; font-weight:600; letter-spacing:.06em; margin-left:3px; }
   .svc-desc{ font-size:14px; color:var(--paper-dim); line-height:1.55; }
   .svc-rule{ display:block; width:26px; height:2px; background:var(--gold-300); opacity:.75; margin-top:16px; border-radius:2px; }
   .svc-tagline{ display:flex; align-items:center; justify-content:center; gap:18px; margin-top:46px; }
@@ -719,3 +720,18 @@ nav.primary a.nav-app-link::before{
   margin-right:7px;
   vertical-align:middle;
 }
+
+
+/* Care & Connect WhatsApp: QR + number */
+.wademo-qr{ display:flex; align-items:center; gap:26px; flex-wrap:wrap; padding:22px; border-radius:18px; background:rgba(255,255,255,.04); border:1px solid rgba(37,211,102,.28); }
+.wademo-qr-box{ background:#fff; padding:12px; border-radius:14px; width:148px; height:148px; flex-shrink:0; }
+.wademo-qr-img{ display:block; width:100%; height:100%; }
+.wademo-qr-info{ display:flex; flex-direction:column; gap:10px; align-items:flex-start; min-width:200px; flex:1; }
+.wademo-qr-label{ margin:0; color:var(--paper-dim); font-size:14px; line-height:1.5; }
+.wademo-qr-number{ font-family:var(--ff-display); font-weight:700; font-size:1.5rem; color:var(--paper); text-decoration:none; }
+.wademo-qr-number:hover{ color:var(--teal-300); }
+
+/* Slogan band: brand lockup moved up from the footer */
+.slogan-band .f-brand{ position:relative; z-index:1; justify-content:center; margin-bottom:24px; text-align:left; }
+.slogan-band .f-brand img{ width:60px; height:60px; }
+.slogan-band .f-brand-name{ font-size:1.2rem; color:var(--paper); }
