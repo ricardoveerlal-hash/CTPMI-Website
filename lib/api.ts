@@ -60,10 +60,14 @@ export interface LeaderboardEntry {
   accuracy?: number;
   correct: number;
   played: number;
+  // Monthly view only: whether this player has reached the minimum quizzes to win the month.
+  qualified?: boolean;
 }
 
+export type LeaderboardRange = "month" | "today" | "7d" | "30d" | "all";
+
 export interface LeaderboardResponse {
-  range: { key: string; label: string };
+  range: { key: string; label: string; monthKey?: string; minPlayed?: number };
   top10: LeaderboardEntry[];
   perfectScores: { name: string; correct: number; played: number }[];
   quickest: { name: string; avgSeconds: number }[];
@@ -180,6 +184,21 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
   return res.json();
 }
 
+export interface SeasonWinner {
+  monthKey: string;
+  monthLabel: string;
+  name: string;
+  points: number;
+  accuracy: number;
+  correct: number;
+  played: number;
+}
+
+export interface SeasonResponse {
+  latestWinner: SeasonWinner | null;
+  winners: SeasonWinner[];
+}
+
 export const api = {
   getQuizToday: (waId: string) =>
     getJson<QuizTodayResponse>("web/quiz/today", { wa_id: waId }),
@@ -187,8 +206,12 @@ export const api = {
   submitQuizAnswer: (waId: string, answers: string[]) =>
     postJson<QuizAnswerResponse>("web/quiz/answer", { wa_id: waId, answers }),
 
-  getLeaderboard: (range: "today" | "7d" | "30d" | "all") =>
+  getLeaderboard: (range: LeaderboardRange) =>
     getJson<LeaderboardResponse>("web/leaderboard", { range }),
+
+  // Latest monthly quiz winner for the banner. Returns latestWinner: null until the first
+  // season is frozen (30 Sep 22:00 SAST), so the banner stays hidden until then.
+  getSeason: () => getJson<SeasonResponse>("web/season"),
 
   getVerse: (waId?: string) =>
     getJson<VerseResponse>("web/verse", waId ? { wa_id: waId } : undefined),

@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { api, type LeaderboardResponse } from "@/lib/api";
+import { api, type LeaderboardRange, type LeaderboardResponse } from "@/lib/api";
+import WinnerBanner from "@/components/WinnerBanner";
+import { isMonthViewLive } from "@/lib/season";
 
-const TABS: { key: "today" | "7d" | "30d" | "all"; label: string; emoji: string }[] = [
+type Tab = { key: LeaderboardRange; label: string; emoji: string };
+
+const BASE_TABS: Tab[] = [
   { key: "today", label: "Today", emoji: "☀️" },
   { key: "7d", label: "7 Days", emoji: "📅" },
   { key: "30d", label: "30 Days", emoji: "🗓️" },
   { key: "all", label: "All Time", emoji: "👑" },
 ];
+
+// From 1 Oct the monthly season leads, with all-time and the rolling ranges still available.
+const MONTH_TAB: Tab = { key: "month", label: "This Month", emoji: "🏁" };
 
 const MEDALS = ["🥇", "🥈", "🥉"];
 
@@ -39,12 +46,23 @@ const SPARKLES = [
 ];
 
 export default function LeaderboardPage() {
-  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]["key"]>("today");
+  // The season gate is read after mount, not during render: Next prerenders this page at build
+  // time, so deciding during render would bake the pre-launch tabs into the HTML and cause a
+  // hydration mismatch once the season is live. activeTab stays null until it is decided.
+  const [monthLive, setMonthLive] = useState(false);
+  const [activeTab, setActiveTab] = useState<LeaderboardRange | null>(null);
   const [data, setData] = useState<LeaderboardResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    const live = isMonthViewLive();
+    setMonthLive(live);
+    setActiveTab(live ? "month" : "today");
+  }, []);
+
+  useEffect(() => {
+    if (!activeTab) return;
     setLoading(true);
     setErrorMsg("");
     api
@@ -53,6 +71,10 @@ export default function LeaderboardPage() {
       .catch(() => setErrorMsg("Couldn't load the leaderboard right now."))
       .finally(() => setLoading(false));
   }, [activeTab]);
+
+  const TABS = monthLive ? [MONTH_TAB, ...BASE_TABS] : BASE_TABS;
+  const isMonthView = data?.range.key === "month";
+  const minPlayed = data?.range.minPlayed ?? 20;
 
   const podium = data?.top10.slice(0, 3) ?? [];
   const rest = data?.top10.slice(3) ?? [];
@@ -74,6 +96,9 @@ export default function LeaderboardPage() {
           ))}
         </h1>
         <p className="mt-1 text-xs text-paper/45">Who's bringing their A-game with the Word this week 👀</p>
+        <div className="mt-4">
+          <WinnerBanner />
+        </div>
         <div className="mt-4 flex gap-1.5 overflow-x-auto rounded-full border border-white/10 bg-navy-800/50 p-1">
           {TABS.map((tab) => (
             <button
@@ -153,6 +178,11 @@ export default function LeaderboardPage() {
                       <p className="text-[11px] text-paper/50">
                         {player.correct} correct{typeof player.accuracy === "number" ? ` · ${player.accuracy}%` : ""}
                       </p>
+                      {isMonthView && (
+                        <p className={`text-[10px] font-semibold ${player.qualified ? "text-gold-400" : "text-paper/40"}`}>
+                          {player.qualified ? "✓ Eligible" : `${player.played}/${minPlayed} to qualify`}
+                        </p>
+                      )}
                       <div className={`relative w-full overflow-hidden rounded-t-card border border-b-0 ${barStyle} ${heights}`}>
                         {isFirst && (
                           <span className="animate-shimmer-sweep absolute inset-y-0 left-0 w-8 skew-x-12 bg-white/25" />
@@ -165,7 +195,15 @@ export default function LeaderboardPage() {
             </section>
           )}
 
-          <Section title="Top 10" subtitle="Ranked by points — correct answers, boosted by accuracy" emoji="📊">
+          <Section
+            title="Top 10"
+            subtitle={
+              isMonthView
+                ? `This month's season — play ${minPlayed}+ quizzes to be eligible to win`
+                : "Ranked by points — correct answers, boosted by accuracy"
+            }
+            emoji="📊"
+          >
             {rest.length || podium.length ? (
               <ol className="flex flex-col gap-2">
                 {rest.map((player, i) => (
@@ -186,6 +224,13 @@ export default function LeaderboardPage() {
                       <span className="text-[11px] text-paper/50">
                         {player.correct} correct{typeof player.accuracy === "number" ? ` · ${player.accuracy}%` : ""}
                       </span>
+                      {isMonthView && (
+                        <span
+                          className={`text-[10px] font-semibold ${player.qualified ? "text-gold-400" : "text-paper/40"}`}
+                        >
+                          {player.qualified ? "✓ Eligible" : `${player.played}/${minPlayed} to qualify`}
+                        </span>
+                      )}
                     </span>
                   </li>
                 ))}

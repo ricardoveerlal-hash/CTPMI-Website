@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/session";
 import QuizPlayer from "@/components/QuizPlayer";
+import WinnerBanner from "@/components/WinnerBanner";
 import { api, type QuizTodayResponse, type QuizAnswerResponse } from "@/lib/api";
 
 type Screen = "loading" | "quiz" | "already_played" | "results" | "error";
@@ -70,6 +71,7 @@ export default function QuizPage() {
   if (screen === "already_played" && quiz) {
     return (
       <div className="flex flex-col gap-4 pt-8 animate-fade-slide-up">
+        <WinnerBanner />
         <p className="font-display text-xl text-paper">You&rsquo;ve already played today</p>
         <p className="text-sm text-paper/60">
           {quiz.totalCorrect} correct across {quiz.totalPlayed} quizzes overall.
@@ -86,6 +88,7 @@ export default function QuizPage() {
     const isPerfect = result.correctCount === result.totalQuestions;
     return (
       <div className="flex flex-col gap-6 pt-4">
+        <WinnerBanner />
         <div className="relative animate-pop-in">
           <p className="text-sm text-teal">Quiz complete</p>
           <p className="font-display text-2xl font-semibold text-paper">
