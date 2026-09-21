@@ -576,7 +576,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
 <section class="slogan-band" aria-label="Ministry slogan">
   <div class="wrap">
     <div class="f-brand">
-      <img src="/ctpmi-logo.png" alt="Conquering Through Prayer Ministries International logo" width="204" height="213">
+      <img src="/ctpmi-icon.png" alt="Conquering Through Prayer Ministries International logo" width="168" height="168">
       <span class="f-brand-name">Conquering Through Prayer<br>Ministries International</span>
     </div>
     <p class="slogan-text">You and I will <span>Conquer Through Prayer!!</span> 🙏</p>
