@@ -732,6 +732,6 @@ nav.primary a.nav-app-link::before{
 .wademo-qr-number:hover{ color:var(--teal-300); }
 
 /* Slogan band: brand lockup moved up from the footer */
-.slogan-band .f-brand{ position:relative; z-index:1; justify-content:center; margin-bottom:24px; text-align:left; }
-.slogan-band .f-brand img{ width:60px; height:60px; }
+.slogan-band .f-brand{ position:relative; z-index:1; flex-direction:column; justify-content:center; gap:16px; margin-bottom:28px; text-align:center; }
+.slogan-band .f-brand img{ width:clamp(150px, 22vw, 210px); height:auto; border-radius:0; background:none; filter:drop-shadow(0 0 24px rgba(79,214,200,.35)); }
 .slogan-band .f-brand-name{ font-size:1.2rem; color:var(--paper); }
