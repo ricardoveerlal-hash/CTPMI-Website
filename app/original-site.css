@@ -678,7 +678,7 @@
 
   /* =================== FOOTER =================== */
   footer{ background:var(--navy-950); border-top:1px solid rgba(255,255,255,.08); padding:70px 0 32px; }
-  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:50px; }
+  .footer-grid{ display:grid; grid-template-columns:1fr 1fr; gap:50px; }
   .f-brand{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
   .f-brand img{ width:44px; height:44px; border-radius:50%; }
   .f-brand-name{ font-family:var(--ff-display); font-weight:700; font-size:1.05rem; }

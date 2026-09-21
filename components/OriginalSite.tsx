@@ -105,7 +105,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="eyebrow">Durban · South Africa · Reaching the Nations</div>
       <h1>Conquering<br>Through <em>Prayer.</em></h1>
-      <p class="lede">A non-denominational church reaching the city, the nation, and the nations of the world — through prayer and the gospel of Jesus Christ.</p>
+      <p class="lede">Reaching the city, the nation, and the nations of the world — through prayer and the gospel of Jesus Christ.</p>
       <div class="hero-ctas">
         <a href="/quiz" class="btn btn-ghost">🧠 Bible Quiz</a>
         <a href="/devotional" class="btn btn-ghost">📅 Devotional of the Day</a>
@@ -586,9 +586,6 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
 <footer>
   <div class="wrap">
     <div class="footer-grid">
-      <div>
-        <p class="f-desc">Reaching the city, the nation, and the nations of the world — through prayer and the gospel of Jesus Christ.</p>
-      </div>
       <div class="f-col">
         <h4>Explore</h4>
         <a href="#about">About</a>
