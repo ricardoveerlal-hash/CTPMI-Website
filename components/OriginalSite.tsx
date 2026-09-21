@@ -328,14 +328,14 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       </div>
 
       <div id="latest" class="latest-tile reveal" hidden>
-        <div class="latest-media">
-          <button type="button" class="latest-zoom" id="latestZoom" aria-label="View the full image"><img id="latestImg" alt="" loading="lazy"></button>
-        </div>
         <div class="latest-copy">
           <span class="latest-badge">🔥 Just dropped</span>
           <h3 id="latestTitle">Latest News</h3>
           <p id="latestCaption"></p>
           <a id="latestLink" class="btn btn-solid" target="_blank" rel="noopener" hidden></a>
+        </div>
+        <div class="latest-media">
+          <button type="button" class="latest-zoom" id="latestZoom" aria-label="View the full image"><img id="latestImg" alt="" loading="lazy"></button>
         </div>
       </div>
     </div>
