@@ -983,8 +983,37 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
     // No body overflow lock here: on iOS Safari, setting overflow:hidden on body while the
     // page is scrolled shifts position:fixed elements, which left gaps above and below the
     // panel. overscroll-behavior on .chat-body stops scroll chaining instead.
-    function openPanel(){ panel.hidden = false; fab.hidden = true; }
-    function closePanel(){ panel.hidden = true; fab.hidden = false; }
+    // Phone keyboard fix: on mobile the panel is a full-screen fixed layer, and iOS/Android
+    // keyboards slide OVER it without resizing it, hiding the composer. Track the visual viewport
+    // (the part of the screen not covered by the keyboard) and size/position the panel to it.
+    var vv = window.visualViewport;
+    function fitToKeyboard(){
+      if (panel.hidden) return;
+      if (!vv || window.innerWidth >= 700){
+        panel.style.top = ''; panel.style.height = ''; panel.style.paddingBottom = '';
+        return;
+      }
+      var kbOpen = (window.innerHeight - vv.height) > 120;
+      panel.style.top = vv.offsetTop + 'px';
+      panel.style.height = vv.height + 'px';
+      panel.style.paddingBottom = kbOpen ? '0px' : '';
+      scroll();
+    }
+    function resetPanelFit(){ panel.style.top = ''; panel.style.height = ''; panel.style.paddingBottom = ''; }
+    if (vv){
+      vv.addEventListener('resize', fitToKeyboard);
+      vv.addEventListener('scroll', fitToKeyboard);
+    }
+    [input, document.getElementById('chatCell')].forEach(function(el){
+      if (!el) return;
+      el.addEventListener('focus', function(){
+        setTimeout(fitToKeyboard, 50);
+        setTimeout(function(){ fitToKeyboard(); if (el.scrollIntoView) el.scrollIntoView({ block: 'nearest' }); }, 300);
+      });
+      el.addEventListener('blur', function(){ setTimeout(fitToKeyboard, 100); });
+    });
+    function openPanel(){ panel.hidden = false; fab.hidden = true; fitToKeyboard(); }
+    function closePanel(){ panel.hidden = true; fab.hidden = false; resetPanelFit(); }
     fab.onclick = openPanel;
     document.getElementById('chatClose').onclick = closePanel;
     document.addEventListener('keydown', function(e){

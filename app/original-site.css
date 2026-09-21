@@ -735,3 +735,8 @@ nav.primary a.nav-app-link::before{
 .slogan-band .f-brand{ position:relative; z-index:1; flex-direction:column; justify-content:center; gap:16px; margin-bottom:28px; text-align:center; }
 .slogan-band .f-brand img{ width:clamp(130px, 17vw, 176px); height:auto; border-radius:0; background:none; filter:drop-shadow(0 0 22px rgba(79,214,200,.3)); }
 .slogan-band .f-brand-name{ font-size:1.2rem; color:var(--paper); }
+
+/* Chat on phones: 16px inputs stop iOS auto-zooming on focus (zoom was pushing the composer off-screen) */
+@media (max-width:699px){
+  .chat-composer textarea, .chat-field input{ font-size:16px; }
+}
