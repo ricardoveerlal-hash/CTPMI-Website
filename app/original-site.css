@@ -540,7 +540,7 @@
   .event-copy p{ color:var(--paper-dim); line-height:1.65; margin:0 0 26px; }
   @media (max-width:860px){ .event-feature{ grid-template-columns:1fr; } .event-media{ min-height:220px; } .event-copy{ padding:36px 26px; } }
 
-  /* =================== FRESH FIRE (latest update tile) =================== */
+  /* =================== LATEST NEWS (latest update tile) =================== */
   .btn[hidden], .latest-tile[hidden]{ display:none !important; }
   .btn-fresh{ border-color:rgba(217,169,78,.7); color:var(--gold-300); }
   .btn-fresh:hover{ border-color:var(--gold-400); color:var(--gold-400); }

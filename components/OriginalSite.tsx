@@ -110,7 +110,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
         <a href="/quiz" class="btn btn-ghost">🧠 Bible Quiz</a>
         <a href="/devotional" class="btn btn-ghost">📅 Devotional of the Day</a>
         <a href="#services" class="btn btn-ghost">Service times</a>
-        <a href="#latest" id="heroLatest" class="btn btn-ghost btn-fresh" hidden>🔥 Fresh Fire</a>
+        <a href="#latest" id="heroLatest" class="btn btn-ghost btn-fresh" hidden>🔥 Latest News</a>
       </div>
     </div>
   </section>
@@ -333,7 +333,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
         </div>
         <div class="latest-copy">
           <span class="latest-badge">🔥 Just dropped</span>
-          <h3 id="latestTitle">Fresh Fire</h3>
+          <h3 id="latestTitle">Latest News</h3>
           <p id="latestCaption"></p>
           <a id="latestLink" class="btn btn-solid" target="_blank" rel="noopener" hidden></a>
         </div>
@@ -1032,7 +1032,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
     } catch (e) {}
   })();
 
-  /* =================== FRESH FIRE (latest update tile) =================== */
+  /* =================== LATEST NEWS (latest update tile) =================== */
   (function(){
     var tile = document.getElementById('latest');
     if (!tile) return;
@@ -1044,7 +1044,7 @@ const SITE_SCRIPT = `  document.getElementById('yr').textContent = new Date().ge
         if (!d || !d.active || !d.imageUrl) return;
         img.src = d.imageUrl;
         img.alt = d.title || 'The latest at CTPMI';
-        document.getElementById('latestTitle').textContent = d.title || 'Fresh Fire';
+        document.getElementById('latestTitle').textContent = d.title || 'Latest News';
         var cap = document.getElementById('latestCaption');
         cap.textContent = d.caption || '';
         cap.style.display = d.caption ? '' : 'none';
