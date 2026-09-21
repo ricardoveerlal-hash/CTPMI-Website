@@ -42,6 +42,11 @@ export default function QuizPage() {
     setErrorMsg("");
     try {
       const res = await api.submitQuizAnswer(session.waId, orderedAnswers);
+      if (res.alreadyPlayed) {
+        // Server says today's quiz was already played: it returns no per-quiz score, so don't show a blank result.
+        setScreen("already_played");
+        return;
+      }
       setResult(res);
       setScreen("results");
     } catch {
