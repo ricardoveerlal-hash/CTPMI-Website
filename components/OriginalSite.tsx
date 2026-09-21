@@ -248,7 +248,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
             </svg>
           </div>
           <div class="svc-day">Cell Groups</div>
-          <div class="svc-time">Thu 7:00 PM</div>
+          <div class="svc-time">Thu 7:00<small class="ampm">PM</small></div>
           <div class="svc-desc">Every Thursday, 7:00 PM. Connect with your Zone Pastor to find your nearest group.</div>
           <span class="svc-rule"></span>
         </div>
@@ -264,7 +264,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
             </svg>
           </div>
           <div class="svc-day">Conquerors Crew · Youth</div>
-          <div class="svc-time">Tue 7:00 PM</div>
+          <div class="svc-time">Tue 7:00<small class="ampm">PM</small></div>
           <div class="svc-desc">Tuesdays, 7:00 PM at 180 Moses Kotane Road — our home for the next generation.</div>
           <span class="svc-rule"></span>
         </div>
