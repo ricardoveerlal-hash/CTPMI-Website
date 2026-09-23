@@ -98,6 +98,7 @@ export interface VerseResponse {
   title?: string;
   body?: string[];
   prayer?: string;
+  author?: string;
   readMinutes?: number;
 }
 
