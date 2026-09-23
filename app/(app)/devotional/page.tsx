@@ -83,6 +83,12 @@ export default function VersePage() {
                 </p>
               </div>
             )}
+
+            {verse.author && (
+              <p className="text-right text-xs text-paper/40">
+                &mdash; {verse.author}
+              </p>
+            )}
           </>
         ) : (
           !errorMsg && <p className="text-sm text-paper/40">Loading...</p>
