@@ -236,6 +236,26 @@ export default function ProfilePage() {
         )}
       </section>
 
+      <section className="flex flex-col gap-3 rounded-card border border-white/10 bg-navy-800 p-5">
+        <p className="font-display text-lg font-semibold text-paper">
+          Get the CTPMI app
+        </p>
+        <p className="text-sm text-paper/60">
+          Install the CTPMI app on your Android phone for the Bible Quiz, devotionals, service
+          times and church updates.
+        </p>
+        <a
+          href="/download"
+          className="rounded-card bg-teal px-4 py-3 text-center font-medium text-navy-900 transition-opacity hover:opacity-90"
+        >
+          Download for Android
+        </a>
+        <p className="text-xs text-paper/40">
+          After it downloads, open the file and allow &ldquo;Install unknown apps&rdquo; for your
+          browser if your phone asks. An iPhone version is not available yet.
+        </p>
+      </section>
+
       <button
         onClick={clearSession}
         className="self-start text-sm text-paper/50 transition-colors hover:text-red-300"
