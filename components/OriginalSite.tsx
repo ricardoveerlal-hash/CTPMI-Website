@@ -282,7 +282,7 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
           <div class="svc-card reveal">
             <div class="svc-day">Sun 20 Dec · Carols Night</div>
             <div class="svc-time">6:00<small class="ampm">PM</small></div>
-            <div class="svc-desc">Join us for Carols Night. Our normal Sunday services still run at 7:30 AM &amp; 10:00 AM.</div>
+            <div class="svc-desc">Join us for an evening of carols and celebration.</div>
             <span class="svc-rule"></span>
           </div>
           <div class="svc-card reveal">
