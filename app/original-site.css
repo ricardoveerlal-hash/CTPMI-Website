@@ -740,3 +740,9 @@ nav.primary a.nav-app-link::before{
 @media (max-width:699px){
   .chat-composer textarea, .chat-field input{ font-size:16px; }
 }
+
+/* December festive services */
+.svc-dec{ margin-top:46px; }
+.svc-dec-title{ font-family:var(--ff-display); font-size:1.6rem; color:var(--paper); margin:4px 0 20px; }
+.svc-grid--dec{ grid-template-columns:repeat(3,1fr); }
+@media (max-width:920px){ .svc-grid--dec{ grid-template-columns:1fr; } }

@@ -119,6 +119,9 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
       <span>Sunday 7:30 &amp; 10:00 AM</span>
+      <span>🎄 Dec 20 · Carols Night 6:00 PM</span>
+      <span>🎄 Dec 25 · Christmas 7:00, 8:30 &amp; 10:00 AM</span>
+      <span>🎆 Dec 31 · New Year's Eve 10:00 PM</span>
       <span>Communion — First Sunday</span>
       <span>Online Prayer · Tue &amp; Sat 6:00 AM</span>
       <span>Tuesday Prayer · 10:00 AM</span>
@@ -126,6 +129,9 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
       <span>Conquerors Crew · Tuesday 7:00 PM</span>
       <span>Chat with us on WhatsApp</span>
       <span>Sunday 7:30 &amp; 10:00 AM</span>
+      <span>🎄 Dec 20 · Carols Night 6:00 PM</span>
+      <span>🎄 Dec 25 · Christmas 7:00, 8:30 &amp; 10:00 AM</span>
+      <span>🎆 Dec 31 · New Year's Eve 10:00 PM</span>
       <span>Communion — First Sunday</span>
       <span>Online Prayer · Tue &amp; Sat 6:00 AM</span>
       <span>Tuesday Prayer · 10:00 AM</span>
@@ -267,6 +273,30 @@ const SITE_HTML = `<div class="bg-field" aria-hidden="true"></div>
           <div class="svc-time">Tue 7:00<small class="ampm">PM</small></div>
           <div class="svc-desc">Tuesdays, 7:00 PM at 180 Moses Kotane Road — our home for the next generation.</div>
           <span class="svc-rule"></span>
+        </div>
+      </div>
+      <div class="svc-dec reveal">
+        <p class="kicker">December 2026</p>
+        <h3 class="svc-dec-title">Festive season services</h3>
+        <div class="svc-grid svc-grid--dec">
+          <div class="svc-card reveal">
+            <div class="svc-day">Sun 20 Dec · Carols Night</div>
+            <div class="svc-time">6:00<small class="ampm">PM</small></div>
+            <div class="svc-desc">Join us for Carols Night. Our normal Sunday services still run at 7:30 AM &amp; 10:00 AM.</div>
+            <span class="svc-rule"></span>
+          </div>
+          <div class="svc-card reveal">
+            <div class="svc-day">Fri 25 Dec · Christmas Day</div>
+            <div class="svc-time">7:00<small class="ampm">AM</small> <span>8:30<small class="ampm">AM</small> <span>&amp; 10:00<small class="ampm">AM</small></span></span></div>
+            <div class="svc-desc">Three Christmas Day celebrations — come and worship with us.</div>
+            <span class="svc-rule"></span>
+          </div>
+          <div class="svc-card reveal">
+            <div class="svc-day">Thu 31 Dec · New Year's Eve</div>
+            <div class="svc-time">10:00<small class="ampm">PM</small></div>
+            <div class="svc-desc">10:00 PM sharp at the church building, 180 Moses Kotane Road — see the year out in prayer.</div>
+            <span class="svc-rule"></span>
+          </div>
         </div>
       </div>
       <div class="svc-tagline">
